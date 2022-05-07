@@ -1,15 +1,31 @@
-## Requirement
+### User authentication and managing account (UserFlow)
 
-1. User can create account with email and password
-2. User can login with email and password
-3. User can change account information
-4. User can see a list products
-5. User can view detailed information about each product by id
-6. User can search product by product name
-7. User can filter products by product price
-8. User can sort products by price
-9. User can order by add to cart after login
-10. User can view and edit(increase or decrease the number of products or remove products from the cart) cart
-11. Users can rate and comment on the product
-12. User can review purchase history
-13. User can cancel order
+- User can create account with email and password(firstName, lastName).(Create)
+- User can login with email and password registered.
+- Owner can see own user's information.(Read)
+- Owner can update own account profile.(Update)
+- Owner can change password.
+- Owner can deactivate own user's account(Delete).
+
+### Managing Cart (CartFlow)
+
+- User can add a product to Cart. (Create)
+- User can see a list products in Cart. (Read)
+- User can update products in Cart. (Update)
+- User can delete products in cart. (Delete)
+
+### Managing products (productFlow)
+
+- User can see list products.
+- User can find products by name.
+- User can filter products by collections and sort products by price, newest, oldest in collections.
+- User can see information of a products by id.
+
+### CRUD comment and reaction for product (InteractionFlow)
+
+- Authentication user can create a comment( post a comment) to a product.
+- Authentication user can see list comment in a product.
+- Author of comment can update this comment.
+- Author of comment can delete this comment.
+- Authentication user can make a reaction to a product.
+- Authentication user can make a reaction to a comment.
