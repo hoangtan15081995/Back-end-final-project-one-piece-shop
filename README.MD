@@ -1,11 +1,11 @@
 ### User authentication and managing account (UserFlow)
 
-- User can create account with email and password(firstName, lastName).(Create)
-- User can login with email and password registered.
-- Owner can see own user's information.(Read)
-- Owner can update own account profile.(Update)
-- Owner can change password.
-- Owner can deactivate own user's account(Delete).
+- User can create account with email and password(firstName, lastName).(Create) ✅
+- User can login with email and password registered ✅
+- Owner can see own user's information.(Read) ✅
+- Owner can update own account profile.(Update) ✅
+- Owner can change password ✅
+- Owner can deactivate own user's account(Delete) ✅
 
 ### Managing Cart (CartFlow)
 
@@ -13,6 +13,14 @@
 - User can see a list products in Cart. (Read)
 - User can update products in Cart. (Update)
 - User can delete products in cart. (Delete)
+
+### Managing Order (OrderFlow)
+
+- Owner can create a order with products (Create)
+- Owner can see list orders created (Read)
+- Owner can see history order
+- Owner can change orders (Update)
+- Owner can cancel order created (Delete)
 
 ### Managing products (productFlow)
 

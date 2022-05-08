@@ -22,11 +22,10 @@ mongoose
   .connect(mongoURI)
   .then(() => {
     console.log(`DB connected`);
-    // require("./createFriend.js");
   })
   .catch((err) => console.log(err));
 
-app.use("/v1", indexRouter);
+app.use("/", indexRouter);
 
 // catch 404 and forard to error handler
 app.use((req, res, next) => {
