@@ -24,10 +24,10 @@
 
 ### Managing products (productFlow)
 
-- User can see list products.
-- User can find products by name.
-- User can filter products by collections and sort products by price, newest, oldest in collections.
-- User can see information of a products by id.
+- User can see list products ✅
+- User can find products by name ✅
+- User can filter products by collections and sort products by price, newest, oldest in collections ✅
+- User can see information of a products by id ✅
 
 ### CRUD comment and reaction for product (InteractionFlow)
 

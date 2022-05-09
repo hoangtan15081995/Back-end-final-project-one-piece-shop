@@ -22,4 +22,52 @@ productController.getAllProducts = catchAsync(async (req, res, next) => {
   );
 });
 
+productController.getSingleProductById = catchAsync(async (req, res, next) => {
+  const { productId } = req.params;
+  const product = await Product.findById(productId);
+  if (!product) {
+    throw new AppError(404, "Product not found", "Get single product error");
+  }
+  return sendResponse(
+    res,
+    200,
+    true,
+    { product },
+    null,
+    "Get single product successful"
+  );
+});
+
+productController.findProductByName = catchAsync(async (req, res, next) => {
+  const { searchquery } = req.body;
+  const product = await Product.find({ productName: searchquery });
+  if (!product) {
+    throw new AppError(404, "Product not found", "Get single product error");
+  }
+  return sendResponse(
+    res,
+    200,
+    true,
+    { product },
+    null,
+    "Get single product successful"
+  );
+});
+
+productController.filterProducts = catchAsync(async (req, res, next) => {
+  const { catagories } = req.body;
+  const product = await Product.find({ catagories: catagories });
+  if (!product) {
+    throw new AppError(404, "Product not found", "Get single product error");
+  }
+  return sendResponse(
+    res,
+    200,
+    true,
+    { product },
+    null,
+    "filter product successful"
+  );
+});
+
 module.exports = productController;
