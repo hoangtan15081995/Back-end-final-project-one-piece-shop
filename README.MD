@@ -9,7 +9,7 @@
 
 ### Managing Cart (CartFlow)
 
-- User can add a product to Cart. (Create)
+- User can add a product to Cart. (Create) ✅
 - User can see a list products in Cart. (Read)
 - User can update products in Cart. (Update)
 - User can delete products in cart. (Delete)

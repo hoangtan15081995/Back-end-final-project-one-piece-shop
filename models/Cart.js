@@ -3,14 +3,13 @@ const Schema = mongoose.Schema;
 
 const cartSchema = Schema(
   {
-    items: [
+    owner: { type: mongoose.Types.ObjectId, ref: "User" },
+    products: [
       {
         product: { type: mongoose.Types.ObjectId, ref: "Product" },
         quantity: { type: Number, default: 0 },
       },
     ],
-    owner: { type: mongoose.Types.ObjectId, ref: "User" },
-    isDeleted: { type: Boolean, default: false, select: false },
   },
   {
     timestamps: true, //CreatedAt & UpdatedAt
