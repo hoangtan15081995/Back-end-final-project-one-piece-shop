@@ -3,11 +3,13 @@ const Schema = mongoose.Schema;
 
 const cartSchema = Schema(
   {
-    productName: { type: String, required: true, unique: true },
-    image: { type: String, required: true },
-    price: { type: Number, required: true },
-    quantity: { type: Number, required: true },
-    totalPrice: { type: Number, required: true },
+    items: [
+      {
+        product: { type: mongoose.Types.ObjectId, ref: "Product" },
+        quantity: { type: Number, default: 0 },
+      },
+    ],
+    owner: { type: mongoose.Types.ObjectId, ref: "User" },
     isDeleted: { type: Boolean, default: false, select: false },
   },
   {

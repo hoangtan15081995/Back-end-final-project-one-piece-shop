@@ -36,7 +36,7 @@ userController.register = catchAsync(async (req, res, next) => {
 
 userController.loginEmailPassword = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
-  //check input
+
   const user = await User.findOne({ email }, "+password");
 
   if (!user) {
@@ -99,13 +99,6 @@ userController.updatePassword = catchAsync(async (req, res, next) => {
     "+password"
   );
   if (!user) throw new AppError(404, "User not found", "update user error");
-
-  // const allows = ["name", "avatarUrl", "aboutMe"];
-  // allows.forEach((field) => {
-  //   if (req.body[field] !== undefined) {
-  //     user[field] = req.body[field];
-  //   }
-  // });
 
   if (newPassword && confirmPassword) {
     const isMatch = await bcrypt.compare(newPassword, user.password);
