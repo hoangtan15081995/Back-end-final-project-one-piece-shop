@@ -10,4 +10,6 @@ router.use("/products", productRouter);
 const cartRouter = require("./carts.api");
 router.use("/carts", cartRouter);
 
+const orderRouter = require("./orders.api");
+router.use("/orders", orderRouter);
 module.exports = router;

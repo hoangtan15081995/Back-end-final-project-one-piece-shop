@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const cartSchema = Schema(
   {
-    owner: { type: mongoose.Types.ObjectId, ref: "User" },
+    owner: { type: mongoose.Types.ObjectId, ref: "Users" },
     products: [
       {
         product: { type: mongoose.Types.ObjectId, ref: "Products" },

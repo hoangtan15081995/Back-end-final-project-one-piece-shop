@@ -49,19 +49,19 @@ cartController.getListProductsCart = catchAsync(async (req, res, next) => {
   limit = parseInt(limit) || 2;
   const offset = limit * (page - 1);
 
-  const currentCart = await Cart.findOne({ owner: currentUserId });
+  const currentCart = await Cart.findOne({ owner: currentUserId })
+    .populate("owner")
+    .populate({ path: "products", populate: "product" });
+  console.log(currentCart);
   if (!currentCart) {
     throw new AppError(404, "productCart not found", "get list product error");
   }
-  const { products } = currentCart;
-  const total = products.length;
-  const totalPages = Math.ceil(total / limit);
 
   return sendResponse(
     res,
     200,
     true,
-    { products },
+    { currentCart },
     null,
     "Get list products cart success"
   );
@@ -116,14 +116,20 @@ cartController.deleteProductCart = catchAsync(async (req, res, next) => {
       "You can not deleted this product cart",
       "deleted product cart error"
     );
-  } else if (!productCart.products.some((item) => item.product == productId)) {
+  } else if (
+    !productCart.products.some((item) => item.product.toString() === productId)
+  ) {
     throw new AppError(
       404,
       "You can not deleted this product cart",
       "deleted product cart error"
     );
   } else {
-    productCart.products.filter((item) => !(item.product == productId));
+    productCart.products = productCart.products.filter((item) => {
+      console.log(typeof item.product.toString());
+      console.log(typeof productId);
+      return item.product.toString() !== productId;
+    });
   }
   productCart.save();
 

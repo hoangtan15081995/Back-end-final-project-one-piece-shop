@@ -11,15 +11,15 @@
 
 - User can add a product to Cart. (Create) ✅
 - User can see a list products in Cart. (Read) ✅
-- User can update products in Cart. (Update)
-- User can delete products in cart. (Delete)
+- User can update products in Cart. (Update) ✅
+- User can delete products in cart. (Delete) ✅
 
 ### Managing Order (OrderFlow)
 
-- Owner can create a order with products (Create)
-- Owner can see list orders created (Read)
+- Owner can create a order with products (Create) ✅
+- Owner can see list orders created (Read) ✅
 - Owner can see history order
-- Owner can change orders (Update)
+- Owner can update orders (Update)
 - Owner can cancel order created (Delete)
 
 ### Managing products (productFlow)
