@@ -6,7 +6,7 @@ const cartSchema = Schema(
     owner: { type: mongoose.Types.ObjectId, ref: "User" },
     products: [
       {
-        product: { type: mongoose.Types.ObjectId, ref: "Product" },
+        product: { type: mongoose.Types.ObjectId, ref: "Products" },
         quantity: { type: Number, default: 0 },
       },
     ],

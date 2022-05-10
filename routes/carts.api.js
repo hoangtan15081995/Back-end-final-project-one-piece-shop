@@ -4,6 +4,8 @@ const { body, param } = require("express-validator");
 const {
   addProductToCart,
   getListProductsCart,
+  updateProductCart,
+  deleteProductCart,
 } = require("../controllers/cart.controller");
 const { loginRequired } = require("../middlewares/authentication");
 const { validate, checkObjectId } = require("../middlewares/validator");
@@ -16,4 +18,23 @@ router.post(
 );
 
 router.get("/list", loginRequired, getListProductsCart);
+
+router.put(
+  "/update/:cartId",
+  loginRequired,
+  validate([
+    param("cartId").exists().isString().custom(checkObjectId),
+    body("productId").exists().isString(),
+    body("quantity").exists(),
+  ]),
+  updateProductCart
+);
+
+router.delete(
+  "/delete/:cartId",
+  loginRequired,
+  validate([param("cartId").exists().isString().custom(checkObjectId)]),
+  deleteProductCart
+);
+
 module.exports = router;

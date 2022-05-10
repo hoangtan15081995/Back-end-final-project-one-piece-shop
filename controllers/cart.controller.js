@@ -1,6 +1,7 @@
 const { sendResponse, catchAsync, AppError } = require("../helpers/utils");
 const Product = require("../models/Product");
 const Cart = require("../models/Cart");
+const User = require("../models/User");
 const cartController = {};
 
 cartController.addProductToCart = catchAsync(async (req, res, next) => {
@@ -8,6 +9,7 @@ cartController.addProductToCart = catchAsync(async (req, res, next) => {
   const { productId } = req.body;
 
   const product = await Product.findOne({ _id: productId });
+  console.log(product);
   if (!product) {
     throw new AppError(404, "Product not found", "Add product error");
   }
@@ -65,4 +67,73 @@ cartController.getListProductsCart = catchAsync(async (req, res, next) => {
   );
 });
 
+cartController.updateProductCart = catchAsync(async (req, res, next) => {
+  const { currentUserId } = req;
+  const { quantity, productId } = req.body;
+  const { cartId } = req.params;
+
+  let productCart = await Cart.findOne({
+    owner: currentUserId,
+    _id: cartId,
+  });
+  if (!productCart) {
+    throw new AppError(
+      404,
+      "You can not update this product cart",
+      "update product cart error"
+    );
+  } else if (!productCart.products.some((item) => item.product == productId)) {
+    productCart.products.push({ product: productId, quantity: 1 });
+  } else {
+    productCart.products.find((item) => item.product == productId).quantity =
+      parseInt(quantity);
+  }
+
+  productCart.save();
+
+  return sendResponse(
+    res,
+    200,
+    true,
+    productCart,
+    null,
+    "Update cart successful"
+  );
+});
+
+cartController.deleteProductCart = catchAsync(async (req, res, next) => {
+  const { currentUserId } = req;
+  const { productId } = req.body;
+  const { cartId } = req.params;
+
+  let productCart = await Cart.findOne({
+    owner: currentUserId,
+    _id: cartId,
+  });
+  if (!productCart) {
+    throw new AppError(
+      404,
+      "You can not deleted this product cart",
+      "deleted product cart error"
+    );
+  } else if (!productCart.products.some((item) => item.product == productId)) {
+    throw new AppError(
+      404,
+      "You can not deleted this product cart",
+      "deleted product cart error"
+    );
+  } else {
+    productCart.products.filter((item) => !(item.product == productId));
+  }
+  productCart.save();
+
+  return sendResponse(
+    res,
+    200,
+    true,
+    productCart,
+    null,
+    "deleted product cart successful"
+  );
+});
 module.exports = cartController;
