@@ -9,7 +9,7 @@ orderController.addNewOrders = catchAsync(async (req, res, next) => {
   const { currentUserId } = req;
   const { phone, address, totalPrice } = req.body;
 
-  const cart = await Cart.findOne({ owner: currentUserId });
+  const cart = await Cart.findOne({ owner: currentUserId, isDeleted: false });
   const orderCart = await Order.findOne({ owner: currentUserId });
   if (!cart) {
     throw new AppError(404, "Your cart not found", "Add new order error");
@@ -26,7 +26,8 @@ orderController.addNewOrders = catchAsync(async (req, res, next) => {
     totalPrice: parseInt(totalPrice),
     status: "pending",
   });
-
+  cart.isDeleted = true;
+  cart.save();
   return sendResponse(res, 200, true, { order }, null, "order succesfull");
 });
 orderController.getListOrders = catchAsync(async (req, res, next) => {
@@ -61,6 +62,10 @@ orderController.updateOrders = catchAsync(async (req, res, next) => {
     owner: currentUserId,
     _id: orderId,
   });
+
+  // if (currentOrder.data.status !== "pending") {
+  //   throw new AppError(404, "can not update", "update order error");
+  // }
   if (!currentOrder) {
     throw new AppError(
       404,

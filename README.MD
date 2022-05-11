@@ -19,8 +19,8 @@
 - Owner can create a order with products (Create) ✅
 - Owner can see list orders created (Read) ✅
 - Owner can see history order
-- Owner can update orders (Update)
-- Owner can cancel order created (Delete)
+- Owner can update orders (Update)✅
+- Owner can cancel order created (Delete)✅
 
 ### Managing products (productFlow)
 

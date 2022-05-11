@@ -10,6 +10,7 @@ const cartSchema = Schema(
         quantity: { type: Number, default: 0 },
       },
     ],
+    isDeleted: false,
   },
   {
     timestamps: true, //CreatedAt & UpdatedAt
