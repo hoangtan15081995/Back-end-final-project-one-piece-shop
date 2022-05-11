@@ -12,7 +12,7 @@ const { body, param, header } = require("express-validator");
 const { loginRequired } = require("../middlewares/authentication");
 const router = express.Router();
 
-router.get(
+router.post(
   "/register",
   validate([
     body("name", "Invalid name").exists().notEmpty(),

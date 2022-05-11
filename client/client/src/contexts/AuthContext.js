@@ -69,7 +69,7 @@ function AuthProvider({ children }) {
         if (accessToken && isValidToken(accessToken)) {
           setSession(accessToken);
 
-          const response = await apiService.get("/users/me");
+          const response = await apiService.get("/users/me/get");
           const user = response.data;
 
           dispatch({
@@ -102,7 +102,7 @@ function AuthProvider({ children }) {
   }, []);
 
   const login = async ({ email, password }, callback) => {
-    const response = await apiService.post("/auth/login", { email, password });
+    const response = await apiService.post("/users/login", { email, password });
     const { user, accessToken } = response.data;
 
     setSession(accessToken);
@@ -115,7 +115,7 @@ function AuthProvider({ children }) {
   };
 
   const register = async ({ name, email, password }, callback) => {
-    const response = await apiService.post("/users", {
+    const response = await apiService.post("/users/register", {
       name,
       email,
       password,
