@@ -5,7 +5,7 @@ const productController = {};
 productController.getAllProducts = catchAsync(async (req, res, next) => {
   let { page, limit } = req.query;
   page = parseInt(page) || 1;
-  limit = parseInt(limit) || 2;
+  limit = parseInt(limit) || 12;
   const offset = limit * (page - 1);
 
   const total = await Product.countDocuments();

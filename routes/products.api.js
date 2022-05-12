@@ -10,7 +10,7 @@ const {
 const { loginRequired } = require("../middlewares/authentication");
 const router = express.Router();
 
-router.get("/getall", loginRequired, getAllProducts);
+router.get("/list", getAllProducts);
 
 router.get(
   "/:productId",
