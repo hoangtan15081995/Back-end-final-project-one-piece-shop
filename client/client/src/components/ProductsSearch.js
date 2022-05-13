@@ -19,9 +19,7 @@ function ProductsSearch() {
           md={4}
           lg={3}
         >
-          <RouterLink to="/detail/:productId">
-            <FCardSearch product={product} />
-          </RouterLink>
+          <FCardSearch product={product} />
         </Grid>
       ))}
     </Grid>
