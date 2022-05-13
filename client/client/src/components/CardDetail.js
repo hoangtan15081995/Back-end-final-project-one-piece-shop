@@ -4,13 +4,14 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions, Container } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 export default function CardDetail() {
   let params = useParams();
   console.log("param", params);
   const { productById } = useSelector((state) => state.product);
+  console.log("productId", productById);
   return (
     <Container
       sx={{

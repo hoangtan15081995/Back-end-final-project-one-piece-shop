@@ -1,24 +1,13 @@
-import React, { useState } from "react";
-import {
-  Link,
-  Stack,
-  Alert,
-  IconButton,
-  InputAdornment,
-  Container,
-} from "@mui/material";
+import React from "react";
+import { Stack, Container } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
-import { useNavigate, Link as RouterLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-import { FCheckbox, FormProvider, FTextField } from "../components/form";
+import { FormProvider, FTextField } from "../components/form";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-
-import { toast } from "react-toastify";
 
 const searchSchema = Yup.object().shape({
   searchQuery: Yup.string().required("SearchQuery is required"),
@@ -40,7 +29,7 @@ function SearchForm() {
     handleSubmit,
     reset,
     setError,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = methods;
 
   const onSubmit = async (data) => {

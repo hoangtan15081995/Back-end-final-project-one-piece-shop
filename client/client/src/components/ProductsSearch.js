@@ -1,11 +1,9 @@
 import { Grid } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import FCardSearch from "./FcardSearch";
-import { useDispatch, useSelector } from "react-redux";
-import { Link as RouterLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function ProductsSearch() {
-  const dispatch = useDispatch();
   const { productsByName } = useSelector((state) => state.product);
   console.log("1", productsByName);
   return (
