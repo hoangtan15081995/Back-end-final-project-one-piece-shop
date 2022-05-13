@@ -4,10 +4,17 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { getProductsById } from "../features/product/productSlice";
 
 export default function FCardSearch({ product }) {
+  const dispatch = useDispatch();
+  const { _id } = product;
+  const handleOnclick = () => {
+    dispatch(getProductsById(_id));
+  };
   return (
-    <Card sx={{ minWidth: 270 }}>
+    <Card onClick={handleOnclick} sx={{ minWidth: 270 }}>
       <CardActionArea>
         <CardMedia
           component="img"

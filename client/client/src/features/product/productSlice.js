@@ -11,6 +11,8 @@ const initialState = {
   productsByName: [],
   pageSearch: 1,
   totalPagesSearch: 1,
+  productId: "",
+  productById: {},
 };
 
 const slice = createSlice({
@@ -38,6 +40,12 @@ const slice = createSlice({
       state.error = null;
       state.productsByName = action.payload.productsByName;
       state.totalPagesSearch = action.payload.totalPagesSearch;
+    },
+
+    getProductsByIdSuccess(state, action) {
+      state.isLoading = false;
+      state.error = null;
+      state.productById = action.payload.productById;
     },
 
     getPagePaginationSuccess(state, action) {
@@ -99,6 +107,22 @@ export const getProductsByName = (searchquery) => async (dispatch) => {
       slice.actions.getProductsByNameSuccess({
         productsByName: response.data.data.product,
         totalPagesSearch: response.data.data.totalPagesSearch,
+      })
+    );
+  } catch (error) {
+    dispatch(slice.actions.hasError(error.message));
+    toast.error(error.message);
+  }
+};
+
+export const getProductsById = (productId) => async (dispatch) => {
+  dispatch(slice.actions.startLoading());
+  try {
+    const response = await apiService.get(`/products/${productId}`);
+    console.log(response);
+    dispatch(
+      slice.actions.getProductsByIdSuccess({
+        productById: response.data.data.product,
       })
     );
   } catch (error) {

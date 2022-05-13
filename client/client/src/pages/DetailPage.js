@@ -1,7 +1,8 @@
 import React from "react";
+import CardDetail from "../components/CardDetail";
 
 function DetailPage() {
-  return <div>DetailPage</div>;
+  return <CardDetail />;
 }
 
 export default DetailPage;

@@ -3,34 +3,38 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { Button, CardActionArea, CardActions } from "@mui/material";
+import { Button, CardActionArea, CardActions, Container } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { getProductsById } from "../features/product/productSlice";
-import { Link as RouterLink } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-export default function FCard({ product }) {
-  const dispatch = useDispatch();
-  const { productId } = useSelector((state) => state.product);
-  const { _id } = product;
-  const handleOnclick = () => {
-    dispatch(getProductsById(_id));
-  };
+export default function CardDetail() {
+  let params = useParams();
+  console.log("param", params);
+  const { productById } = useSelector((state) => state.product);
   return (
-    <RouterLink to={`/detail/${_id}`}>
-      <Card onClick={handleOnclick} sx={{ minWidth: 270 }}>
+    <Container
+      sx={{
+        minHeight: "100vh",
+        mt: 3,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Card sx={{ maxWidth: 270 }}>
         <CardActionArea>
           <CardMedia
             component="img"
             height="400"
-            image={product.image}
+            image={productById.image}
             alt="green iguana"
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
-              {product.productName}
+              {productById.productName}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {product.description}
+              {productById.description}
             </Typography>
           </CardContent>
         </CardActionArea>
@@ -40,6 +44,6 @@ export default function FCard({ product }) {
           </Button>
         </CardActions>
       </Card>
-    </RouterLink>
+    </Container>
   );
 }

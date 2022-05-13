@@ -49,8 +49,9 @@ productController.findProductByName = catchAsync(async (req, res, next) => {
     productName: searchquery,
   }).countDocuments();
   const totalPagesSearch = Math.ceil(total / limit);
-
-  const product = await Product.find({ productName: searchquery })
+  const product = await Product.find({
+    productName: searchquery,
+  })
     .skip(offset)
     .limit(limit);
   if (product.length === 0) {

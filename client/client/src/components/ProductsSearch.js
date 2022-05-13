@@ -2,6 +2,7 @@ import { Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import FCardSearch from "./FcardSearch";
 import { useDispatch, useSelector } from "react-redux";
+import { Link as RouterLink } from "react-router-dom";
 
 function ProductsSearch() {
   const dispatch = useDispatch();
@@ -18,7 +19,9 @@ function ProductsSearch() {
           md={4}
           lg={3}
         >
-          <FCardSearch product={product} />
+          <RouterLink to="/detail/:productId">
+            <FCardSearch product={product} />
+          </RouterLink>
         </Grid>
       ))}
     </Grid>

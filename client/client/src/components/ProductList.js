@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import FCard from "./Fcard";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../features/product/productSlice";
+import { Link as RouterLink } from "react-router-dom";
 
 function ProductList() {
   const dispatch = useDispatch();
