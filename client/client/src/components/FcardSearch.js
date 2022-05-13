@@ -5,7 +5,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions } from "@mui/material";
 
-export default function FCard({ product }) {
+export default function FCardSearch({ product }) {
   return (
     <Card sx={{ minWidth: 270 }}>
       <CardActionArea>

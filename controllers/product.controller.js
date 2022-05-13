@@ -39,16 +39,28 @@ productController.getSingleProductById = catchAsync(async (req, res, next) => {
 });
 
 productController.findProductByName = catchAsync(async (req, res, next) => {
+  let { page, limit } = req.query;
   const { searchquery } = req.body;
-  const product = await Product.find({ productName: searchquery });
-  if (!product) {
+  page = parseInt(page) || 1;
+  limit = parseInt(limit) || 12;
+  const offset = limit * (page - 1);
+
+  const total = await Product.find({
+    productName: searchquery,
+  }).countDocuments();
+  const totalPagesSearch = Math.ceil(total / limit);
+
+  const product = await Product.find({ productName: searchquery })
+    .skip(offset)
+    .limit(limit);
+  if (product.length === 0) {
     throw new AppError(404, "Product not found", "Get single product error");
   }
   return sendResponse(
     res,
     200,
     true,
-    { product },
+    { product, total, totalPagesSearch },
     null,
     "Get single product successful"
   );

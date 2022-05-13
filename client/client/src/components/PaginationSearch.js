@@ -1,18 +1,20 @@
 import { Box, Stack, Pagination } from "@mui/material";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getPagePagination } from "../features/product/productSlice";
+import { getPagePaginationSearch } from "../features/product/productSlice";
 
 function FPaginationSearch() {
   const dispatch = useDispatch();
-  const { page, totalPages } = useSelector((state) => state.product);
+  const { pageSearch, totalPagesSearch } = useSelector(
+    (state) => state.product
+  );
   const handleChangePage = (event, newPage) => {
     window.scroll({
       top: 0,
       left: 0,
       behavior: "smooth",
     });
-    dispatch(getPagePagination(newPage));
+    dispatch(getPagePaginationSearch(newPage));
   };
   return (
     <Box>
@@ -20,14 +22,14 @@ function FPaginationSearch() {
         spacing={2}
         mt={3}
         mb={3}
-        display="flex"
+        // display="flex"
         justifyContent="center"
         alignItems="center"
       >
         <Pagination
-          page={page}
+          page={pageSearch}
           onChange={handleChangePage}
-          count={totalPages}
+          count={totalPagesSearch}
           color="primary"
         />
       </Stack>

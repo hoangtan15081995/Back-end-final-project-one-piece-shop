@@ -11,12 +11,14 @@ import OrderPage from "../pages/OrderPage";
 import ProductCartPage from "../pages/ProductCartPage";
 import ProfilePage from "../pages/ProfilePage";
 import RegisterPage from "../pages/RegisterPage";
+import SearchPage from "../pages/SearchPage";
 
 function Router() {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
         <Route index element={<HomePage />} />
+        <Route path="/search" element={<SearchPage />} />
         <Route path="/detail/:productId" element={<DetailPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/order" element={<OrderPage />} />

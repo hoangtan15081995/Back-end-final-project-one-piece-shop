@@ -1,18 +1,15 @@
 import { Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import FCard from "./Fcard";
+import FCardSearch from "./FcardSearch";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "../features/product/productSlice";
 
-function ProductList() {
+function ProductsSearch() {
   const dispatch = useDispatch();
-  const { products, page } = useSelector((state) => state.product);
-  useEffect(() => {
-    dispatch(getProducts(page));
-  }, [dispatch, page]);
+  const { productsByName } = useSelector((state) => state.product);
+  console.log("1", productsByName);
   return (
     <Grid container spacing={2} mt={1}>
-      {products.map((product) => (
+      {productsByName.map((product) => (
         <Grid
           sx={{ minWidth: 285 }}
           item
@@ -21,11 +18,11 @@ function ProductList() {
           md={4}
           lg={3}
         >
-          <FCard product={product} />
+          <FCardSearch product={product} />
         </Grid>
       ))}
     </Grid>
   );
 }
 
-export default ProductList;
+export default ProductsSearch;

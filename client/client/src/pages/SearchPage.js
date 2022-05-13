@@ -1,9 +1,9 @@
 import { Box, Container, Stack } from "@mui/material";
 import React from "react";
-import ProductList from "./ProductList";
-import FPagination from "./Pagination";
+import ProductsSearch from "../components/ProductsSearch";
+import FPaginationSearch from "../components/PaginationSearch";
 
-function DefaulPage() {
+function SearchPage() {
   return (
     <Container
       sx={{
@@ -11,14 +11,14 @@ function DefaulPage() {
         mt: 3,
       }}
     >
-      <Stack>
+      <Stack width="300">
         <Box sx={{ position: "relative", height: 1 }}>
-          <ProductList />
+          <ProductsSearch />
         </Box>
-        <FPagination />
+        <FPaginationSearch />
       </Stack>
     </Container>
   );
 }
 
-export default DefaulPage;
+export default SearchPage;
