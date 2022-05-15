@@ -61,49 +61,10 @@ const AuthContext = createContext({ ...initialState });
 function AuthProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  useEffect(() => {
-    const initialize = async () => {
-      try {
-        const accessToken = window.localStorage.getItem("accessToken");
-
-        if (accessToken && isValidToken(accessToken)) {
-          setSession(accessToken);
-
-          const response = await apiService.get("/users/me/get");
-          const user = response.data;
-
-          dispatch({
-            type: INITIALIZE,
-            payload: { isAuthenticated: true, user },
-          });
-        } else {
-          setSession(null);
-
-          dispatch({
-            type: INITIALIZE,
-            payload: { isAuthenticated: false, user: null },
-          });
-        }
-      } catch (err) {
-        console.error(err);
-
-        setSession(null);
-        dispatch({
-          type: INITIALIZE,
-          payload: {
-            isAuthenticated: false,
-            user: null,
-          },
-        });
-      }
-    };
-
-    initialize();
-  }, []);
-
   const login = async ({ email, password }, callback) => {
     const response = await apiService.post("/users/login", { email, password });
-    const { user, accessToken } = response.data;
+    console.log("res", response);
+    const { user, accessToken } = response.data.success;
 
     setSession(accessToken);
     dispatch({
@@ -121,7 +82,7 @@ function AuthProvider({ children }) {
       password,
     });
 
-    const { user, accessToken } = response.data;
+    const { user, accessToken } = response.data.success;
     setSession(accessToken);
     dispatch({
       type: REGISTER_SUCCESS,

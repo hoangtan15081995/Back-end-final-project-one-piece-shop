@@ -8,7 +8,7 @@ const productRouter = require("./products.api");
 router.use("/products", productRouter);
 
 const cartRouter = require("./carts.api");
-router.use("/carts", cartRouter);
+router.use("/cards", cartRouter);
 
 const orderRouter = require("./orders.api");
 router.use("/orders", orderRouter);

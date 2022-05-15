@@ -22,9 +22,9 @@ function ProductList() {
           md={4}
           lg={3}
         >
-          <RouterLink to={`/detail/${productId}`}>
-            <FCard product={product} />
-          </RouterLink>
+          {/* <RouterLink to={`/detail/${productId}`}> */}
+          <FCard product={product} />
+          {/* </RouterLink> */}
         </Grid>
       ))}
     </Grid>

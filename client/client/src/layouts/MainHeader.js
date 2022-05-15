@@ -18,6 +18,10 @@ import Logo from "../components/Logo";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import SearchForm from "../components/SearchForm";
 import SearchFormDemo from "../components/SearchFormDemo";
+import useAuth from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+import { alertClasses } from "@mui/material";
+import { toast } from "react-toastify";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -36,6 +40,8 @@ const Search = styled("div")(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+  const auth = useAuth();
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -58,13 +64,29 @@ export default function PrimarySearchAppBar() {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-
+  const handleLogOut = async () => {
+    try {
+      setAnchorEl(null);
+      handleMobileMenuClose();
+      await auth.logout(() => {
+        navigate("/");
+      });
+      toast.success("Log out success");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const handleProfile = () => {
+    setAnchorEl(null);
+    handleMobileMenuClose();
+    navigate("/profile");
+  };
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
       anchorOrigin={{
-        vertical: "top",
+        vertical: "bottom",
         horizontal: "right",
       }}
       id={menuId}
@@ -76,8 +98,9 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleProfile}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleLogOut}>Log out</MenuItem>
     </Menu>
   );
 
@@ -154,8 +177,6 @@ export default function PrimarySearchAppBar() {
           >
             ONE PIECE
           </Typography>
-
-          {/* <SearchForm /> */}
           <SearchFormDemo />
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>

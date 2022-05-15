@@ -103,6 +103,7 @@ export const getProductsByName = (searchquery) => async (dispatch) => {
     console.log(searchquery);
     const response = await apiService.post("/products/find", { searchquery });
     console.log(response.data.data.product);
+
     dispatch(
       slice.actions.getProductsByNameSuccess({
         productsByName: response.data.data.product,

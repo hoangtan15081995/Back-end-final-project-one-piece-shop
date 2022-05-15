@@ -7,6 +7,7 @@ import { Button, CardActionArea, CardActions } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { getProductsById } from "../features/product/productSlice";
 import { Link as RouterLink, NavLink } from "react-router-dom";
+import AddToCard from "./AddToCard";
 
 export default function FCard({ product }) {
   const dispatch = useDispatch();
@@ -15,8 +16,8 @@ export default function FCard({ product }) {
     dispatch(getProductsById(_id));
   };
   return (
-    <NavLink to={`/detail/${_id}`}>
-      <Card onClick={handleOnclick} sx={{ minWidth: 270 }}>
+    <Card onClick={handleOnclick} sx={{ minWidth: 270 }}>
+      <NavLink to={`/detail/${_id}`}>
         <CardActionArea>
           <CardMedia
             component="img"
@@ -33,12 +34,10 @@ export default function FCard({ product }) {
             </Typography>
           </CardContent>
         </CardActionArea>
-        <CardActions>
-          <Button size="small" color="primary" variant="contained">
-            Add To Card
-          </Button>
-        </CardActions>
-      </Card>
-    </NavLink>
+      </NavLink>
+      <CardActions>
+        <AddToCard id={_id} />
+      </CardActions>
+    </Card>
   );
 }

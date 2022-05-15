@@ -8,7 +8,7 @@ import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import OrderPage from "../pages/OrderPage";
-import ProductCartPage from "../pages/ProductCartPage";
+import ProductCardPage from "../pages/ProductCardPage";
 import ProfilePage from "../pages/ProfilePage";
 import RegisterPage from "../pages/RegisterPage";
 import SearchPage from "../pages/SearchPage";
@@ -22,7 +22,7 @@ function Router() {
         <Route path="/detail/:productId" element={<DetailPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/order" element={<OrderPage />} />
-        <Route path="/productcart" element={<ProductCartPage />} />
+        <Route path="/productcard" element={<ProductCardPage />} />
       </Route>
       <Route element={<BlankLayout />}>
         <Route path="/login" element={<LoginPage />} />

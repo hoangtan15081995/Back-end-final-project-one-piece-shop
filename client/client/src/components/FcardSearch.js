@@ -7,6 +7,7 @@ import { Button, CardActionArea, CardActions } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { getProductsById } from "../features/product/productSlice";
 import { Link as RouterLink } from "react-router-dom";
+import AddToCard from "./AddToCard";
 
 export default function FCardSearch({ product }) {
   const dispatch = useDispatch();
@@ -15,8 +16,8 @@ export default function FCardSearch({ product }) {
     dispatch(getProductsById(_id));
   };
   return (
-    <RouterLink to={`/detail/${_id}`}>
-      <Card onClick={handleOnclick} sx={{ minWidth: 270 }}>
+    <Card onClick={handleOnclick} sx={{ minWidth: 270 }}>
+      <RouterLink to={`/detail/${_id}`}>
         <CardActionArea>
           <CardMedia
             component="img"
@@ -33,12 +34,10 @@ export default function FCardSearch({ product }) {
             </Typography>
           </CardContent>
         </CardActionArea>
-        <CardActions>
-          <Button size="small" color="primary" variant="contained">
-            Add To Card
-          </Button>
-        </CardActions>
-      </Card>
-    </RouterLink>
+      </RouterLink>
+      <CardActions>
+        <AddToCard />
+      </CardActions>
+    </Card>
   );
 }

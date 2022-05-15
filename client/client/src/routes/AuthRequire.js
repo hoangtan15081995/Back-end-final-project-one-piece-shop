@@ -6,13 +6,13 @@ function AuthRequire({ children }) {
   const { isInitialized, isAuthenticated } = useAuth();
   const location = useLocation();
 
-  if (!isInitialized) {
-    return <LoadingScreen />;
-  }
-
-  if (!isAuthenticated) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
-  }
+  // if (!isInitialized) {
+  //   return <LoadingScreen />;
+  // }
+  // const accessToken = window.localStorage.getItem("accessToken");
+  // if (!accessToken) {
+  //   return <Navigate to="/login" state={{ from: location }} replace />;
+  // }
 
   return children;
 }

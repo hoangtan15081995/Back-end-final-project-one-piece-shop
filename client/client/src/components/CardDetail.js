@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions, Container } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import AddToCard from "./AddToCard";
 
 export default function CardDetail() {
   let params = useParams();
@@ -40,9 +41,7 @@ export default function CardDetail() {
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <Button size="small" color="primary" variant="contained">
-            Add To Card
-          </Button>
+          <AddToCard />
         </CardActions>
       </Card>
     </Container>
