@@ -6,52 +6,91 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Stack } from "@mui/material";
-
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
-
+import { Button, Stack } from "@mui/material";
+import { useSelector } from "react-redux";
+import RemoveIcon from "@mui/icons-material/Remove";
+import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { useDispatch } from "react-redux";
+import {
+  updateProductsInCard,
+  deleteProductsInCard,
+} from "../features/card/cardSlice";
 export default function ProductCardPage() {
+  const dispatch = useDispatch();
+  const handleOnclickIncre = (productId, condition) => {
+    dispatch(updateProductsInCard(productId, condition));
+  };
+  const handleOnclickDecre = (productId, condition) => {
+    dispatch(updateProductsInCard(productId, condition));
+  };
+  const handleOnclickDel = (productId) => {
+    console.log("test", productId);
+    dispatch(deleteProductsInCard(productId));
+  };
+  const { productsInCard } = useSelector((state) => state.card);
+  console.log("map", productsInCard);
   return (
-    <Stack display="flex" mt={20} justifyContent="center" alignItems="center">
-      <TableContainer sx={{ maxWidth: 1000 }} component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Dessert (100g serving)</TableCell>
-              <TableCell align="right">Calories</TableCell>
-              <TableCell align="right">Fat&nbsp;(g)</TableCell>
-              <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-              <TableCell align="right">Protein&nbsp;(g)</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <TableRow
-                key={row.name}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell align="right">{row.calories}</TableCell>
-                <TableCell align="right">{row.fat}</TableCell>
-                <TableCell align="right">{row.carbs}</TableCell>
-                <TableCell align="right">{row.protein}</TableCell>
+    <>
+      <Stack display="flex" mt={5} justifyContent="center" alignItems="center">
+        <TableContainer sx={{ maxWidth: 1000 }} component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Product</TableCell>
+                <TableCell align="center">Price</TableCell>
+                <TableCell align="center">Quantity</TableCell>
+                <TableCell align="center">Total Price</TableCell>
+                <TableCell align="center">Operation</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Stack>
+            </TableHead>
+            <TableBody>
+              {productsInCard.map((product) => (
+                <TableRow
+                  key={product.product.productName}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    {product.product.productName}
+                  </TableCell>
+                  <TableCell align="center">{product.product.price}</TableCell>
+                  <TableCell align="center">
+                    <Button
+                      onClick={() =>
+                        handleOnclickDecre(product.product._id, "Des")
+                      }
+                    >
+                      <RemoveIcon />
+                    </Button>
+                    {product.quantity}
+                    <Button
+                      onClick={() =>
+                        handleOnclickIncre(product.product._id, "Ins")
+                      }
+                    >
+                      <AddIcon />
+                    </Button>
+                  </TableCell>
+                  <TableCell align="center">
+                    {product.product.price * product.quantity}
+                  </TableCell>
+                  <TableCell align="center">
+                    <Button
+                    // onClick={() => handleOnclickDel(product.product._id)}
+                    >
+                      <DeleteIcon />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+
+        <Stack mt={5} mb={5} sx={{ maxWidth: 100 }}>
+          <Button variant="contained">Order</Button>
+        </Stack>
+      </Stack>
+    </>
   );
 }

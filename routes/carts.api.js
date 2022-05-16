@@ -20,21 +20,12 @@ router.post(
 router.get("/list", loginRequired, getListProductsCart);
 
 router.put(
-  "/update/:cartId",
+  "/update",
   loginRequired,
-  validate([
-    param("cartId").exists().isString().custom(checkObjectId),
-    body("productId").exists().isString(),
-    body("quantity").exists(),
-  ]),
+  validate([body("productId").exists().isString()]),
   updateProductCart
 );
 
-router.delete(
-  "/delete/:cartId",
-  loginRequired,
-  validate([param("cartId").exists().isString().custom(checkObjectId)]),
-  deleteProductCart
-);
+router.delete("/delete", loginRequired, deleteProductCart);
 
 module.exports = router;

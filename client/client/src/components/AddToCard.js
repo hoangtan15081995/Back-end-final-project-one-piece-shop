@@ -1,21 +1,22 @@
 import { Button } from "@mui/material";
 import React from "react";
 import AuthRequire from "../routes/AuthRequire";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { useDispatch } from "react-redux";
 import { addProductsToCard } from "../features/card/cardSlice";
 
 function AddToCard({ id }) {
   const dispatch = useDispatch();
+  const location = useLocation();
   const accessToken = window.localStorage.getItem("accessToken");
   const navigate = useNavigate();
   const handleOnClick = () => {
     if (!accessToken) {
-      navigate("/login");
+      navigate("/login", { state: { from: location } });
     } else {
-      navigate("/productcard");
       dispatch(addProductsToCard(id));
+      navigate("/productcard");
     }
   };
   return (

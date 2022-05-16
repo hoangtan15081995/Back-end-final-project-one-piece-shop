@@ -25,31 +25,72 @@ const slice = createSlice({
       state.isLoading = false;
       state.hasError = null;
     },
-    addProductsToCard(state, action) {
+    addProductsToCardSuccess(state, action) {
       state.isLoading = false;
       state.hasError = null;
+      state.productsInCard = action.payload.productsInCard;
+    },
+    updateProductsInCardSuccess(state, action) {
+      state.isLoading = false;
+      state.hasError = null;
+      state.productsInCard = action.payload.productsInCard;
+    },
+    deleteProductsInCardSuccess(state, action) {
+      state.isLoading = false;
+      state.hasError = null;
+      state.productsInCard = action.payload.productsInCard;
     },
   },
 });
 
-export const getProductsInCard =
-  ({ _id }) =>
-  async (dispatch) => {
+export const updateProductsInCard =
+  (productId, condition) => async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await apiService.get(`/carts/add`, { _id });
-      dispatch(slice.actions.getProductsInCardSuccess(response.data.cart));
+      const response = await apiService.put("/cards/update", {
+        productId,
+        condition,
+      });
+      const res = await apiService.get("/cards/list");
+      dispatch(
+        slice.actions.updateProductsInCardSuccess({
+          productsInCard: res.data.data.currentCart.products,
+        })
+      );
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
     }
   };
 
+export const deleteProductsInCard = (productId) => async (dispatch) => {
+  dispatch(slice.actions.startLoading());
+  try {
+    console.log("iddel", productId);
+    const response = await apiService.delete("/cards/delete", { productId });
+    console.log("det", response);
+    const res = await apiService.get("/cards/list");
+    dispatch(
+      slice.actions.deleteProductsInCardSuccess({
+        productsInCard: res.data.data.currentCart.products,
+      })
+    );
+  } catch (error) {
+    dispatch(slice.actions.hasError(error.message));
+  }
+};
+
 export const addProductsToCard = (productId) => async (dispatch) => {
   dispatch(slice.actions.startLoading);
   try {
-    console.log("productId", productId);
     const response = await apiService.post("/cards/add", { productId });
-    console.log("productscard", response);
+    const res = await apiService.get("cards/list");
+    console.log("resca", res.data.data.currentCart.products);
+    dispatch(
+      slice.actions.addProductsToCardSuccess({
+        productsInCard: res.data.data.currentCart.products,
+      })
+    );
+    console.log("productscard", response.data.data.products);
   } catch (error) {
     console.log(error);
   }
