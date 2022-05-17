@@ -7,7 +7,6 @@ const initialState = {
   isLoading: false,
   error: null,
   profile: {},
-  // updatePassword: null,
 };
 
 const slice = createSlice({
@@ -26,11 +25,11 @@ const slice = createSlice({
       state.hasError = null;
       state.profile = action.payload;
     },
-    // updatePasswordSuccess(state, action) {
-    //   state.isLoading = false;
-    //   state.hasError = null;
-
-    // },
+    updatePasswordSuccess(state, action) {
+      state.isLoading = false;
+      state.hasError = null;
+      state.profile = action.payload;
+    },
     getCurrentUserProfileSuccess(state, action) {
       state.isLoading = false;
       state.hasError = null;
@@ -69,20 +68,19 @@ export const getCurrentUserProfile = () => async (dispatch) => {
     toast.error(error.message);
   }
 };
-// export const updatePassword =
-//   ({ password, newPassword }) =>
-//   async (dispatch) => {
-//     dispatch(slice.actions.isLoading());
-//     console.log("first", password);
-//     try {
-//       const response = await apiService.put(`/users/password`, {
-//         password,
-//         newPassword,
-//       });
-//       dispatch(slice.actions.updatePasswordSuccess(response.data));
-//     } catch (error) {
-//       dispatch(slice.actions.hasError(error.message));
-//       toast.error(error.message);
-//     }
-//   };
-//
+export const updatePassword =
+  ({ password, newPassword }) =>
+  async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    console.log("first", password);
+    try {
+      const response = await apiService.put("/users/me/updatepassword", {
+        password,
+        newPassword,
+      });
+      dispatch(slice.actions.updatePasswordSuccess(response.data.success));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.message));
+      toast.error(error.message);
+    }
+  };
