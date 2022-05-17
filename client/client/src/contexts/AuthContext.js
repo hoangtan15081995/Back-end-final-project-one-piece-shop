@@ -5,7 +5,7 @@ import { isValidToken } from "../utils/jwt";
 const initialState = {
   isInitialized: false,
   isAuthenticated: false,
-  user: null,
+  user: {},
 };
 
 const INITIALIZE = "AUTH.INITIALIZE";
@@ -39,7 +39,7 @@ const reducer = (state, action) => {
       return {
         ...state,
         isAuthenticated: false,
-        user: null,
+        user: {},
       };
     default:
       return state;
@@ -60,6 +60,45 @@ const AuthContext = createContext({ ...initialState });
 
 function AuthProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
+  useEffect(() => {
+    const initialize = async () => {
+      try {
+        const accessToken = window.localStorage.getItem("accessToken");
+
+        if (accessToken && isValidToken(accessToken)) {
+          setSession(accessToken);
+
+          const response = await apiService.get("/users/me/get");
+          const user = response.data.success;
+
+          dispatch({
+            type: INITIALIZE,
+            payload: { isAuthenticated: true, user },
+          });
+        } else {
+          setSession(null);
+
+          dispatch({
+            type: INITIALIZE,
+            payload: { isAuthenticated: false, user: {} },
+          });
+        }
+      } catch (err) {
+        console.error(err);
+
+        setSession(null);
+        dispatch({
+          type: INITIALIZE,
+          payload: {
+            isAuthenticated: false,
+            user: {},
+          },
+        });
+      }
+    };
+
+    initialize();
+  }, []);
 
   const login = async ({ email, password }, callback) => {
     const response = await apiService.post("/users/login", { email, password });

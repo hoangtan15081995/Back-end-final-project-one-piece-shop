@@ -112,6 +112,7 @@ cartController.updateProductCart = catchAsync(async (req, res, next) => {
 
 cartController.deleteProductCart = catchAsync(async (req, res, next) => {
   const { currentUserId } = req;
+  console.log("req", req.body);
   const productId = req.body.productId;
 
   let productCart = await Cart.findOne({

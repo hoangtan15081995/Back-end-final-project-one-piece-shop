@@ -33,15 +33,30 @@ router.post(
 
 router.get(
   "/me/get",
+  loginRequired,
   validate([header("authorization").exists().isString()]),
-  loginEmailPassword,
   getCurrentUserProfile
 );
 
-router.put("/me/update", loginRequired, updateCurrentUser);
+router.put(
+  "/me/update",
+  loginRequired,
+  validate([header("authorization").exists().isString()]),
+  updateCurrentUser
+);
 
-router.put("/me/updatepassword", loginRequired, updatePassword);
+router.put(
+  "/me/updatepassword",
+  loginRequired,
+  validate([header("authorization").exists().isString()]),
+  updatePassword
+);
 
-router.delete("/me/deactivate", loginRequired, deactivateCurrentUser);
+router.delete(
+  "/me/deactivate",
+  loginRequired,
+  validate([header("authorization").exists().isString()]),
+  deactivateCurrentUser
+);
 
 module.exports = router;

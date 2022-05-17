@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { body, param } = require("express-validator");
+const { body, param, header } = require("express-validator");
 const {
   addProductToCart,
   getListProductsCart,
@@ -17,7 +17,12 @@ router.post(
   addProductToCart
 );
 
-router.get("/list", loginRequired, getListProductsCart);
+router.get(
+  "/list",
+  loginRequired,
+  validate([header("authorization").exists().isString()]),
+  getListProductsCart
+);
 
 router.put(
   "/update",

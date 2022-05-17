@@ -5,12 +5,9 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions, Container } from "@mui/material";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 import AddToCard from "./AddToCard";
 
 export default function CardDetail() {
-  let params = useParams();
-  console.log("param", params);
   const { productById } = useSelector((state) => state.product);
   console.log("productId", productById);
   return (

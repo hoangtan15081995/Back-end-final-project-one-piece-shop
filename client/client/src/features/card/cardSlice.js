@@ -40,6 +40,11 @@ const slice = createSlice({
       state.hasError = null;
       state.productsInCard = action.payload.productsInCard;
     },
+    getProductsInCardSuccess(state, action) {
+      state.isLoading = false;
+      state.hasError = null;
+      state.productsInCard = action.payload.productsInCard;
+    },
   },
 });
 
@@ -93,6 +98,22 @@ export const addProductsToCard = (productId) => async (dispatch) => {
     console.log("productscard", response.data.data.products);
   } catch (error) {
     console.log(error);
+  }
+};
+export const getProductsInCard = () => async (dispatch) => {
+  dispatch(slice.actions.startLoading());
+  try {
+    const accessToken = window.localStorage.getItem("accessToken");
+    apiService.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+    const response = await apiService.get("/cards/list");
+    console.log("fin", response);
+    dispatch(
+      slice.actions.getProductsInCardSuccess({
+        productsInCard: response.data.data.currentCart.products,
+      })
+    );
+  } catch (error) {
+    dispatch(slice.actions.hasError(error.message));
   }
 };
 

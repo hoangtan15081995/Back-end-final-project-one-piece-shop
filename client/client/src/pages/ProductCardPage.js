@@ -16,6 +16,10 @@ import {
   updateProductsInCard,
   deleteProductsInCard,
 } from "../features/card/cardSlice";
+import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { getProductsInCard } from "../features/card/cardSlice";
+
 export default function ProductCardPage() {
   const dispatch = useDispatch();
   const handleOnclickIncre = (productId, condition) => {
@@ -30,6 +34,10 @@ export default function ProductCardPage() {
   };
   const { productsInCard } = useSelector((state) => state.card);
   console.log("map", productsInCard);
+  useEffect(() => {
+    dispatch(getProductsInCard());
+  }, []);
+
   return (
     <>
       <Stack display="flex" mt={5} justifyContent="center" alignItems="center">
@@ -76,7 +84,7 @@ export default function ProductCardPage() {
                   </TableCell>
                   <TableCell align="center">
                     <Button
-                    // onClick={() => handleOnclickDel(product.product._id)}
+                      onClick={() => handleOnclickDel(product.product._id)}
                     >
                       <DeleteIcon />
                     </Button>
@@ -86,10 +94,11 @@ export default function ProductCardPage() {
             </TableBody>
           </Table>
         </TableContainer>
-
-        <Stack mt={5} mb={5} sx={{ maxWidth: 100 }}>
-          <Button variant="contained">Order</Button>
-        </Stack>
+        <Link to="/order">
+          <Stack mt={5} mb={5} sx={{ maxWidth: 100 }}>
+            <Button variant="contained">Order</Button>
+          </Stack>
+        </Link>
       </Stack>
     </>
   );
