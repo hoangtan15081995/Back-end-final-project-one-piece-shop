@@ -11,7 +11,7 @@ function SearchFormDemo() {
   const { register, handleSubmit } = useForm();
   const onSubmit = (data) => {
     dispatch(getProductsByName(data.search));
-    navigate("/search");
+    navigate(`/search/${data.search}`);
   };
 
   return (

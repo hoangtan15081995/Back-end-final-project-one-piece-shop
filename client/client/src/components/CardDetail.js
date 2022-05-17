@@ -1,15 +1,24 @@
 import * as React from "react";
+import { useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions, Container } from "@mui/material";
-import { useSelector } from "react-redux";
 import AddToCard from "./AddToCard";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getProductsById } from "../features/product/productSlice";
 
 export default function CardDetail() {
+  const dispatch = useDispatch();
+  let params = useParams();
+  let productId = params.productId;
   const { productById } = useSelector((state) => state.product);
   console.log("productId", productById);
+  useEffect(() => {
+    dispatch(getProductsById(productId));
+  }, []);
   return (
     <Container
       sx={{

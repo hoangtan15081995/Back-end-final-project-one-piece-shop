@@ -1,13 +1,21 @@
 import { Grid } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import FCardSearch from "./FcardSearch";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
+import { getProductsByName } from "../features/product/productSlice";
 
 function ProductsSearch() {
+  const dispatch = useDispatch();
+  let params = useParams();
+  let searchQuery = params.query;
   const { productsByName } = useSelector((state) => state.product);
   console.log("1", productsByName);
+  useEffect(() => {
+    dispatch(getProductsByName(searchQuery));
+  }, []);
   return (
-    <Grid container spacing={2} mt={1}>
+    <Grid container spacing={2} mt={8}>
       {productsByName.map((product) => (
         <Grid
           sx={{ minWidth: 285 }}

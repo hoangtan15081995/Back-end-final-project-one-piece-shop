@@ -21,11 +21,11 @@ const slice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
-    // updateUserProfileSuccess(state, action) {
-    //   state.isLoading = false;
-    //   state.hasError = null;
-
-    // },
+    updateUserProfileSuccess(state, action) {
+      state.isLoading = false;
+      state.hasError = null;
+      state.profile = action.payload;
+    },
     // updatePasswordSuccess(state, action) {
     //   state.isLoading = false;
     //   state.hasError = null;
@@ -41,31 +41,22 @@ const slice = createSlice({
 
 export default slice.reducer;
 
-// export const updateUserProfile =
-//   ({ userId, fullName, avatarUrl, city, country, numberOfPhone, address }) =>
-//   async (dispatch) => {
-//     dispatch(slice.actions.startLoading());
-//     try {
-//       const data = {
-//         fullName,
-//         // avatarUrl,
-//         city,
-//         country,
-//         numberOfPhone,
-//         address,
-//       };
-//       if (avatarUrl instanceof File) {
-//         const imageUrl = await cloudinaryUpload(avatarUrl);
-//         data.avatarUrl = imageUrl;
-//       }
-//       const response = await apiService.put(`/users/me/update`, data);
-//       dispatch(slice.actions.updateUserProfileSuccess(response.data));
-//       toast.success("Update Profile successfully");
-//     } catch (error) {
-//       dispatch(slice.actions.hasError(error.message));
-//       toast.error(error.message);
-//     }
-//   };
+export const updateUserProfile =
+  ({ name, email }) =>
+  async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await apiService.put("/users/me/update", {
+        name,
+        email,
+      });
+      dispatch(slice.actions.updateUserProfileSuccess(response.data.success));
+      toast.success("Update Profile successfully");
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.message));
+      toast.error(error.message);
+    }
+  };
 
 export const getCurrentUserProfile = () => async (dispatch) => {
   dispatch(slice.actions.startLoading());

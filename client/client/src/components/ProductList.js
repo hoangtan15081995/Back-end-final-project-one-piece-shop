@@ -12,7 +12,7 @@ function ProductList() {
     dispatch(getProducts(page));
   }, [dispatch, page]);
   return (
-    <Grid container spacing={2} mt={1}>
+    <Grid container spacing={2} mt={8}>
       {products.map((product) => (
         <Grid
           sx={{ minWidth: 285 }}

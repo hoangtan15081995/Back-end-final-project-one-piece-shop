@@ -31,6 +31,11 @@ router.put(
   updateProductCart
 );
 
-router.delete("/delete", loginRequired, deleteProductCart);
+router.delete(
+  "/delete",
+  loginRequired,
+  validate([body("productId").exists().isString()]),
+  deleteProductCart
+);
 
 module.exports = router;

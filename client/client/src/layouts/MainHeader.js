@@ -22,24 +22,16 @@ import useAuth from "../hooks/useAuth";
 import { Link, useNavigate } from "react-router-dom";
 import { alertClasses } from "@mui/material";
 import { toast } from "react-toastify";
-
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(3),
-    width: "auto",
-  },
-}));
+import { useEffect } from "react";
+import { getProductsInCard } from "../features/card/cardSlice";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function PrimarySearchAppBar() {
+  const dispatch = useDispatch();
+  const { productsInCard } = useSelector((state) => state.card);
+  useEffect(() => {
+    dispatch(getProductsInCard());
+  }, []);
   const auth = useAuth();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -129,7 +121,7 @@ export default function PrimarySearchAppBar() {
             aria-label="show 17 new notifications"
             color="inherit"
           >
-            <Badge badgeContent={5} color="error">
+            <Badge badgeContent={productsInCard.length} color="error">
               <ShoppingCartIcon />
             </Badge>
           </IconButton>
@@ -154,14 +146,14 @@ export default function PrimarySearchAppBar() {
 
   return (
     <Box>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           <IconButton
             size="large"
             edge="start"
             color="inherit"
             aria-label="open drawer"
-            sx={{ mr: 2 }}
+            sx={{ mr: 2, ml: 2 }}
           >
             <Logo />
           </IconButton>
@@ -182,7 +174,7 @@ export default function PrimarySearchAppBar() {
               color="inherit"
             >
               <Link to="/productcard">
-                <Badge badgeContent={5} color="error">
+                <Badge badgeContent={productsInCard.length} color="error">
                   <ShoppingCartIcon />
                 </Badge>
               </Link>

@@ -31,7 +31,7 @@ export default function FCard({ product }) {
               {product.productName}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {product.description}
+              {product.price}
             </Typography>
           </CardContent>
         </CardActionArea>

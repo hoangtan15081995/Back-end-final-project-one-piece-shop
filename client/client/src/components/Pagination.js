@@ -24,12 +24,16 @@ function FPaginationSearch() {
         justifyContent="center"
         alignItems="center"
       >
-        <Pagination
-          page={page}
-          onChange={handleChangePage}
-          count={totalPages}
-          color="primary"
-        />
+        {totalPages > 1 ? (
+          <Pagination
+            page={page}
+            onChange={handleChangePage}
+            count={totalPages}
+            color="primary"
+          />
+        ) : (
+          ""
+        )}
       </Stack>
     </Box>
   );

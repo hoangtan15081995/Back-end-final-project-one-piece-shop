@@ -113,13 +113,11 @@ cartController.updateProductCart = catchAsync(async (req, res, next) => {
 cartController.deleteProductCart = catchAsync(async (req, res, next) => {
   const { currentUserId } = req;
   console.log("req", req.body);
-  const productId = req.body.productId;
+  const { productId } = req.body;
 
   let productCart = await Cart.findOne({
     owner: currentUserId,
   });
-  console.log("productCart", productCart);
-  console.log("productId", productId);
   if (!productCart) {
     throw new AppError(
       404,

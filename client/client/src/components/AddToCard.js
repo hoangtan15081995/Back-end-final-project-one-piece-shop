@@ -16,7 +16,7 @@ function AddToCard({ id }) {
       navigate("/login", { state: { from: location } });
     } else {
       dispatch(addProductsToCard(id));
-      navigate("/productcard");
+      // navigate("/productcard");
     }
   };
   return (

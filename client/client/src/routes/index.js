@@ -19,7 +19,7 @@ function Router() {
     <Routes>
       <Route path="/" element={<MainLayout />}>
         <Route index element={<HomePage />} />
-        <Route path="/search" element={<SearchPage />} />
+        <Route path="/search/:query" element={<SearchPage />} />
         <Route path="/detail/:productId" element={<DetailPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/change" element={<ChangePasswordPage />} />
