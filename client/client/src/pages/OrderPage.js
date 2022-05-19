@@ -20,7 +20,11 @@ import {
 } from "../features/user/userSlice";
 import { addNewOrder } from "../features/order/orderSlice";
 import { LoadingButton } from "@mui/lab";
-import { getProductsInCard } from "../features/card/cardSlice";
+import {
+  getProductsInCard,
+  setProductsInCard,
+} from "../features/card/cardSlice";
+import { Link, useNavigate } from "react-router-dom";
 
 const OrderUserSchema = yup.object().shape({
   address: yup.string().required("name is required"),
@@ -28,6 +32,7 @@ const OrderUserSchema = yup.object().shape({
 });
 
 function OrderPage() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getProductsInCard());
@@ -52,6 +57,8 @@ function OrderPage() {
   const onSubmit = (data) => {
     console.log("dada", data);
     dispatch(addNewOrder({ address: data.address, phone: data.phone }));
+    navigate("/checkout");
+    // dispatch(setProductsInCard());
   };
 
   return (
@@ -140,6 +147,7 @@ function OrderPage() {
               alignItems="center"
               sx={{ mt: 5, textAlign: "center", width: "100%" }}
             >
+              {/* <Link style={{ textDecoration: "none" }} to="/checkout"> */}
               <LoadingButton
                 type="submit"
                 variant="contained"
@@ -147,6 +155,7 @@ function OrderPage() {
               >
                 Submit
               </LoadingButton>
+              {/* </Link> */}
             </Stack>
           </FormProvider>
         </Box>

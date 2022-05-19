@@ -18,9 +18,6 @@ const slice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
-    resetCard(state, action) {
-      state.productsInCard = [];
-    },
     getProductsInCardSuccess(state, action) {
       state.isLoading = false;
       state.hasError = null;
@@ -41,6 +38,11 @@ const slice = createSlice({
       state.productsInCard = action.payload.productsInCard;
     },
     getProductsInCardSuccess(state, action) {
+      state.isLoading = false;
+      state.hasError = null;
+      state.productsInCard = action.payload.productsInCard;
+    },
+    setProductsInCardSuccess(state, action) {
       state.isLoading = false;
       state.hasError = null;
       state.productsInCard = action.payload.productsInCard;
@@ -111,6 +113,23 @@ export const getProductsInCard = () => async (dispatch) => {
     dispatch(
       slice.actions.getProductsInCardSuccess({
         productsInCard: response.data.data.currentCart.products,
+      })
+    );
+  } catch (error) {
+    dispatch(slice.actions.hasError(error.message));
+  }
+};
+
+export const setProductsInCard = () => async (dispatch) => {
+  dispatch(slice.actions.startLoading());
+  try {
+    const productsInCard = [];
+    console.log("...", productsInCard);
+    const response = await apiService.put("/cards/set", { productsInCard });
+    console.log(response);
+    dispatch(
+      slice.actions.setProductsInCardSuccess({
+        productsInCard: response.data.data,
       })
     );
   } catch (error) {

@@ -37,83 +37,93 @@ export default function ProductCardPage() {
   useEffect(() => {
     dispatch(getProductsInCard());
   }, []);
+  const accessToken = window.localStorage.getItem("accessToken");
 
   return (
     <>
-      <Stack display="flex" mt={5} justifyContent="center" alignItems="center">
-        <TableContainer sx={{ maxWidth: 1000 }} component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Product</TableCell>
-                <TableCell align="center">Price</TableCell>
-                <TableCell align="center">Quantity</TableCell>
-                <TableCell align="center">Total Price</TableCell>
-                <TableCell align="center">Operation</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {productsInCard.map((product) => (
-                <TableRow
-                  key={product.product.productName}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    {product.product.productName}
-                  </TableCell>
-                  <TableCell align="center">{product.product.price}</TableCell>
-                  <TableCell align="center">
-                    <Button
-                      onClick={() =>
-                        handleOnclickDecre(product.product._id, "Des")
-                      }
-                    >
-                      <RemoveIcon />
-                    </Button>
-                    {product.quantity}
-                    <Button
-                      onClick={() =>
-                        handleOnclickIncre(product.product._id, "Ins")
-                      }
-                    >
-                      <AddIcon />
-                    </Button>
-                  </TableCell>
-                  <TableCell align="center">
-                    {product.product.price * product.quantity}
-                  </TableCell>
-                  <TableCell align="center">
-                    <Button
-                      onClick={() => handleOnclickDel(product.product._id)}
-                    >
-                      <DeleteIcon />
-                    </Button>
+      {accessToken && (
+        <Stack
+          display="flex"
+          mt={5}
+          justifyContent="center"
+          alignItems="center"
+        >
+          <TableContainer sx={{ maxWidth: 1000 }} component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Product</TableCell>
+                  <TableCell align="center">Price</TableCell>
+                  <TableCell align="center">Quantity</TableCell>
+                  <TableCell align="center">Total Price</TableCell>
+                  <TableCell align="center">Operation</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {productsInCard.map((product) => (
+                  <TableRow
+                    key={product.product.productName}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {product.product.productName}
+                    </TableCell>
+                    <TableCell align="center">
+                      {product.product.price}
+                    </TableCell>
+                    <TableCell align="center">
+                      <Button
+                        onClick={() =>
+                          handleOnclickDecre(product.product._id, "Des")
+                        }
+                      >
+                        <RemoveIcon />
+                      </Button>
+                      {product.quantity}
+                      <Button
+                        onClick={() =>
+                          handleOnclickIncre(product.product._id, "Ins")
+                        }
+                      >
+                        <AddIcon />
+                      </Button>
+                    </TableCell>
+                    <TableCell align="center">
+                      {product.product.price * product.quantity}
+                    </TableCell>
+                    <TableCell align="center">
+                      <Button
+                        onClick={() => handleOnclickDel(product.product._id)}
+                      >
+                        <DeleteIcon />
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+              <TableBody>
+                <TableRow>
+                  <TableCell />
+                  <TableCell />
+                  <TableCell>Total Price</TableCell>
+                  <TableCell>
+                    {productsInCard.reduce(function (previousValue, product) {
+                      return (
+                        previousValue + product.product.price * product.quantity
+                      );
+                    }, 0)}
                   </TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-            <TableBody>
-              <TableRow>
-                <TableCell />
-                <TableCell />
-                <TableCell>Total Price</TableCell>
-                <TableCell>
-                  {productsInCard.reduce(function (previousValue, product) {
-                    return (
-                      previousValue + product.product.price * product.quantity
-                    );
-                  }, 0)}
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <Link to="/order">
-          <Stack mt={5} mb={5} sx={{ maxWidth: 100 }}>
-            <Button variant="contained">Order</Button>
-          </Stack>
-        </Link>
-      </Stack>
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <Link style={{ textDecoration: "none" }} to="/order">
+            <Stack mt={5} mb={5} sx={{ maxWidth: 100 }}>
+              <Button variant="contained">Order</Button>
+            </Stack>
+          </Link>
+        </Stack>
+      )}
     </>
   );
 }

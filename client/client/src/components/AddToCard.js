@@ -3,8 +3,9 @@ import React from "react";
 import AuthRequire from "../routes/AuthRequire";
 import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addProductsToCard } from "../features/card/cardSlice";
+import { toast } from "react-toastify";
 
 function AddToCard({ id }) {
   const dispatch = useDispatch();
@@ -16,9 +17,11 @@ function AddToCard({ id }) {
       navigate("/login", { state: { from: location } });
     } else {
       dispatch(addProductsToCard(id));
-      // navigate("/productcard");
+      toast.success("Add Product Success!");
     }
   };
+  // const { productsInCard } = useSelector((state) => state.card);
+  // console.log("pro", productsInCard);
   return (
     <AuthRequire>
       <Button

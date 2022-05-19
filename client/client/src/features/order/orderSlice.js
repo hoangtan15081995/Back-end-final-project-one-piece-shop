@@ -6,6 +6,8 @@ const initialState = {
   isLoading: false,
   error: null,
   order: {},
+  ordersList: [],
+  totalPagesOrder: 1,
 };
 
 const slice = createSlice({
@@ -25,6 +27,11 @@ const slice = createSlice({
       state.hasError = null;
       state.order = action.payload.order;
     },
+    getListOrdersSuccess(state, action) {
+      state.isLoading = false;
+      state.hasError = null;
+      state.ordersList = action.payload.ordersList;
+    },
   },
 });
 
@@ -38,15 +45,31 @@ export const addNewOrder =
       apiService.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
       const response = await apiService.post("/orders/add", { address, phone });
       // const res = await apiService.get("orders/list");
-      console.log("response", response);
+      console.log("response order", response);
       // console.log("res", res);
       dispatch(
         slice.actions.addNewOrderSuccess({
-          order: {},
+          order: response.data.data.order,
         })
       );
     } catch (error) {
       console.log(error);
     }
   };
+
+export const getListOrders = () => async (dispatch) => {
+  dispatch(slice.actions.startLoading);
+  try {
+    const response = await apiService.get("/orders/list");
+    console.log("response ordersList", response);
+    dispatch(
+      slice.actions.getListOrdersSuccess({
+        ordersList: response.data.data.listOrder,
+        totalPagesOrder: response.data.data.totalPagesOrder,
+      })
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};
 export default slice.reducer;

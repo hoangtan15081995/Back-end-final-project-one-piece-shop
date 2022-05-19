@@ -1,11 +1,11 @@
 import { Box, Stack, Pagination } from "@mui/material";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getPagePaginationSearch } from "../features/product/productSlice";
+import { getPagePaginationCatagory } from "../features/product/productSlice";
 
 function PaginationCatagory() {
   const dispatch = useDispatch();
-  const { pageSearch, totalPagesSearch } = useSelector(
+  const { pageCatagory, totalPagesCatagory } = useSelector(
     (state) => state.product
   );
   const handleChangePage = (event, newPage) => {
@@ -14,7 +14,7 @@ function PaginationCatagory() {
       left: 0,
       behavior: "smooth",
     });
-    dispatch(getPagePaginationSearch(newPage));
+    dispatch(getPagePaginationCatagory(newPage));
   };
   return (
     <Box>
@@ -26,11 +26,11 @@ function PaginationCatagory() {
         justifyContent="center"
         alignItems="center"
       >
-        {totalPagesSearch > 1 ? (
+        {totalPagesCatagory > 1 ? (
           <Pagination
-            page={pageSearch}
+            page={pageCatagory}
             onChange={handleChangePage}
-            count={totalPagesSearch}
+            count={totalPagesCatagory}
             color="primary"
           />
         ) : (

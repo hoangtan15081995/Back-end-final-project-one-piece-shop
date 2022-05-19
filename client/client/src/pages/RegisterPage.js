@@ -10,6 +10,7 @@ import {
 import { LoadingButton } from "@mui/lab";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { toast } from "react-toastify";
 
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 
@@ -58,6 +59,7 @@ function RegisterPage() {
     try {
       await auth.register({ name, email, password }, () => {
         navigate("/", { replace: true });
+        toast.success("Register Success!");
       });
     } catch (error) {
       reset();

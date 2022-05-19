@@ -6,6 +6,7 @@ const {
   getListProductsCart,
   updateProductCart,
   deleteProductCart,
+  setProductCart,
 } = require("../controllers/cart.controller");
 const { loginRequired } = require("../middlewares/authentication");
 const { validate, checkObjectId } = require("../middlewares/validator");
@@ -30,6 +31,7 @@ router.put(
   validate([body("productId").exists().isString()]),
   updateProductCart
 );
+router.put("/set", loginRequired, setProductCart);
 
 router.put(
   "/delete",

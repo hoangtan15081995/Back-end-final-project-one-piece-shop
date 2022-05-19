@@ -38,19 +38,23 @@ orderController.getListOrders = catchAsync(async (req, res, next) => {
   page = parseInt(page) || 1;
   limit = parseInt(limit) || 2;
   const offset = limit * (page - 1);
+  const total = await Order.find({ owner: currentUserId }).countDocuments();
+  const totalPagesOrder = Math.ceil(total / limit);
 
-  const currentOrder = await Order.findOne({ owner: currentUserId })
+  const listOrder = await Order.find({ owner: currentUserId })
+    .skip(offset)
+    .limit(limit)
     .populate("owner")
     .populate({ path: "products", populate: "product" });
-  if (!currentOrder) {
-    throw new AppError(404, "productCart not found", "get list product error");
-  }
+  // if (!currentOrder) {
+  //   throw new AppError(404, "productCart not found", "get list product error");
+  // }
 
   return sendResponse(
     res,
     200,
     true,
-    { currentOrder },
+    { listOrder, totalPagesOrder },
     null,
     "Get list order cart success"
   );

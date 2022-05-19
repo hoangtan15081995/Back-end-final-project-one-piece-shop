@@ -96,6 +96,15 @@ export default function PrimarySearchAppBar() {
       console.error(error);
     }
   };
+  const handleOrdersList = async () => {
+    try {
+      setAnchorEl(null);
+      handleMobileMenuClose();
+      navigate("/orderslist");
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const handleProfile = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
@@ -123,6 +132,7 @@ export default function PrimarySearchAppBar() {
           <MenuItem onClick={handleProfile}>Profile</MenuItem>
           <MenuItem onClick={handleMenuClose}>Change Password</MenuItem>
           <MenuItem onClick={handleOrder}>Order</MenuItem>
+          <MenuItem onClick={handleOrdersList}>Orders List</MenuItem>
           <MenuItem onClick={handleLogOut}>Log out</MenuItem>
         </div>
       ) : (
