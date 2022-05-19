@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import BlankLayout from "../layouts/BlankLayout";
 import MainLayout from "../layouts/MainLayout";
+import CatagoryPage from "../pages/CatagoryPage";
 import ChangePasswordPage from "../pages/ChangePasswordPage";
 import DetailPage from "../pages/DetailPage";
 
@@ -22,6 +23,7 @@ function Router() {
         <Route path="/search/:query" element={<SearchPage />} />
         <Route path="/detail/:productId" element={<DetailPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/catagoryPage/:catagory" element={<CatagoryPage />} />
         <Route path="/change" element={<ChangePasswordPage />} />
         <Route path="/order" element={<OrderPage />} />
         <Route path="/productcard" element={<ProductCardPage />} />

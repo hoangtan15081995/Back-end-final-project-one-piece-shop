@@ -53,10 +53,11 @@ function ChangePasswordPage() {
   } = methods;
 
   const onSubmit = async (data) => {
+    console.log("data", data);
     const { password, passwordConfirmation } = data;
-    dispatch(updatePassword({ password, passwordConfirmation }));
+    console.log(password, passwordConfirmation);
+    dispatch(updatePassword(password, passwordConfirmation));
   };
-
   return (
     <Container sx={{ mt: 30 }} maxWidth="xs">
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>

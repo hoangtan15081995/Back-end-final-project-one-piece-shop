@@ -35,6 +35,11 @@ const slice = createSlice({
       state.hasError = null;
       state.profile = action.payload;
     },
+    deleteAccountSuccess(state, action) {
+      state.isLoading = false;
+      state.hasError = null;
+      state.profile = action.payload;
+    },
   },
 });
 
@@ -69,14 +74,15 @@ export const getCurrentUserProfile = () => async (dispatch) => {
   }
 };
 export const updatePassword =
-  ({ password, newPassword }) =>
-  async (dispatch) => {
+  (newPassword, confirmPassword) => async (dispatch) => {
     dispatch(slice.actions.startLoading());
-    console.log("first", password);
     try {
+      console.log("inputdata", newPassword, confirmPassword);
+      // const accessToken = window.localStorage.getItem("accessToken");
+      // apiService.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
       const response = await apiService.put("/users/me/updatepassword", {
-        password,
         newPassword,
+        confirmPassword,
       });
       dispatch(slice.actions.updatePasswordSuccess(response.data.success));
     } catch (error) {
@@ -84,3 +90,16 @@ export const updatePassword =
       toast.error(error.message);
     }
   };
+
+export const deleteAccount = () => async (dispatch) => {
+  dispatch(slice.actions.startLoading());
+  try {
+    const accessToken = window.localStorage.getItem("accessToken");
+    apiService.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+    const response = await apiService.delete("/users/me/deactivate");
+    dispatch(slice.actions.deleteAccountSuccess(response.data.success));
+  } catch (error) {
+    dispatch(slice.actions.hasError(error.message));
+    toast.error(error.message);
+  }
+};

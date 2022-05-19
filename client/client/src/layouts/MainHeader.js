@@ -25,8 +25,10 @@ import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { getProductsInCard } from "../features/card/cardSlice";
 import { useSelector, useDispatch } from "react-redux";
+import { getProductsCatagory } from "../features/product/productSlice";
 
 export default function PrimarySearchAppBar() {
+  const accessToken = window.localStorage.getItem("accessToken");
   const dispatch = useDispatch();
   const { productsInCard } = useSelector((state) => state.card);
   useEffect(() => {
@@ -69,6 +71,31 @@ export default function PrimarySearchAppBar() {
       console.error(error);
     }
   };
+
+  const Catagories = ["Clock", "T-shirt", "Poster", "Toymodel", "Coat"];
+  const handleOnclickCatagory = (catagory) => {
+    catagory = catagory.toLowerCase();
+    dispatch(getProductsCatagory(catagory));
+  };
+
+  const handleLogin = async () => {
+    try {
+      setAnchorEl(null);
+      handleMobileMenuClose();
+      navigate("/login");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const handleOrder = async () => {
+    try {
+      setAnchorEl(null);
+      handleMobileMenuClose();
+      navigate("/order");
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const handleProfile = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
@@ -91,9 +118,21 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleProfile}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Change Password</MenuItem>
-      <MenuItem onClick={handleLogOut}>Log out</MenuItem>
+      {accessToken ? (
+        <div>
+          <MenuItem onClick={handleProfile}>Profile</MenuItem>
+          <MenuItem onClick={handleMenuClose}>Change Password</MenuItem>
+          <MenuItem onClick={handleOrder}>Order</MenuItem>
+          <MenuItem onClick={handleLogOut}>Log out</MenuItem>
+        </div>
+      ) : (
+        <MenuItem
+          sx={{ minWidth: 150, justifyContent: "center" }}
+          onClick={handleLogin}
+        >
+          Login
+        </MenuItem>
+      )}
     </Menu>
   );
 
@@ -114,14 +153,20 @@ export default function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <Link to="/productcard">
+      <Link
+        style={{ textDecoration: "none", color: "white" }}
+        to="/productcard"
+      >
         <MenuItem>
           <IconButton
             size="large"
             aria-label="show 17 new notifications"
             color="inherit"
           >
-            <Badge badgeContent={productsInCard.length} color="error">
+            <Badge
+              badgeContent={accessToken ? productsInCard.length : 0}
+              color="error"
+            >
               <ShoppingCartIcon />
             </Badge>
           </IconButton>
@@ -158,7 +203,7 @@ export default function PrimarySearchAppBar() {
             <Logo />
           </IconButton>
           <Typography
-            variant="h6"
+            variant="h5"
             noWrap
             component="div"
             sx={{ display: { xs: "none", sm: "block" } }}
@@ -166,6 +211,27 @@ export default function PrimarySearchAppBar() {
             ONE PIECE
           </Typography>
           <SearchFormDemo />
+
+          {Catagories.map((catagory) => {
+            return (
+              <Link
+                key={catagory}
+                style={{ textDecoration: "none", color: "white" }}
+                to={`catagoryPage/${catagory}`}
+                onClick={() => handleOnclickCatagory(catagory)}
+              >
+                <Typography
+                  variant="h5"
+                  noWrap
+                  component="div"
+                  sx={{ display: { xs: "none", sm: "block" }, mr: 5, ml: 4 }}
+                >
+                  {catagory}
+                </Typography>
+              </Link>
+            );
+          })}
+
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton
@@ -173,8 +239,17 @@ export default function PrimarySearchAppBar() {
               aria-label="show 17 new notifications"
               color="inherit"
             >
-              <Link to="/productcard">
-                <Badge badgeContent={productsInCard.length} color="error">
+              <Link
+                style={{
+                  textDecoration: "none",
+                  color: "white",
+                }}
+                to="/productcard"
+              >
+                <Badge
+                  badgeContent={accessToken ? productsInCard.length : 0}
+                  color="success"
+                >
                   <ShoppingCartIcon />
                 </Badge>
               </Link>

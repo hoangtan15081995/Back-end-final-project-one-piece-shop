@@ -8,6 +8,8 @@ cartController.addProductToCart = catchAsync(async (req, res, next) => {
   const { currentUserId } = req;
   const { productId } = req.body;
 
+  console.log("productid", productId);
+
   const product = await Product.findOne({ _id: productId });
   console.log(product);
   if (!product) {
@@ -69,7 +71,7 @@ cartController.getListProductsCart = catchAsync(async (req, res, next) => {
 
 cartController.updateProductCart = catchAsync(async (req, res, next) => {
   const { currentUserId } = req;
-  const { condition, productId } = req.body;
+  const { condition, productId, quantity } = req.body;
 
   let productCart = await Cart.findOne({
     owner: currentUserId,
@@ -112,8 +114,7 @@ cartController.updateProductCart = catchAsync(async (req, res, next) => {
 
 cartController.deleteProductCart = catchAsync(async (req, res, next) => {
   const { currentUserId } = req;
-  console.log("req", req.body);
-  const { productId } = req.body;
+  const { condition, productId } = req.body;
 
   let productCart = await Cart.findOne({
     owner: currentUserId,
@@ -121,10 +122,10 @@ cartController.deleteProductCart = catchAsync(async (req, res, next) => {
   if (!productCart) {
     throw new AppError(
       404,
-      "You can not deleted this product card",
-      "deleted product cart error"
+      "You can not delete this product cart",
+      "delete product cart error"
     );
-  } else {
+  } else if (productCart.products.some((item) => item.product == productId)) {
     productCart.products = productCart.products.filter((item) => {
       return item.product.toString() !== productId;
     });
@@ -137,7 +138,38 @@ cartController.deleteProductCart = catchAsync(async (req, res, next) => {
     true,
     productCart,
     null,
-    "deleted product cart successful"
+    "delete cart successful"
   );
 });
+
+// cartController.deleteProductCart = catchAsync(async (req, res, next) => {
+//   const { currentUserId } = req;
+//   console.log("req", req.body);
+//   const { productId } = req.body;
+
+//   let productCart = await Cart.findOne({
+//     owner: currentUserId,
+//   });
+//   if (!productCart) {
+//     throw new AppError(
+//       404,
+//       "You can not deleted this product card",
+//       "deleted product cart error"
+//     );
+//   } else {
+//     productCart.products = productCart.products.filter((item) => {
+//       return item.product.toString() !== productId;
+//     });
+//   }
+//   productCart.save();
+
+//   return sendResponse(
+//     res,
+//     200,
+//     true,
+//     productCart,
+//     null,
+//     "deleted product cart successful"
+//   );
+// });
 module.exports = cartController;

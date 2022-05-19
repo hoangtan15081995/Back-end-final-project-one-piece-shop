@@ -41,21 +41,22 @@ productController.getSingleProductById = catchAsync(async (req, res, next) => {
 productController.findProductByName = catchAsync(async (req, res, next) => {
   let { page, limit } = req.query;
   const { searchquery } = req.body;
+  console.log(searchquery);
   page = parseInt(page) || 1;
   limit = parseInt(limit) || 12;
   const offset = limit * (page - 1);
 
   const total = await Product.find({
-    productName: searchquery,
+    $text: { $search: searchquery },
   }).countDocuments();
   const totalPagesSearch = Math.ceil(total / limit);
   const product = await Product.find({
-    productName: searchquery,
+    $text: { $search: searchquery },
   })
     .skip(offset)
     .limit(limit);
   if (product.length === 0) {
-    throw new AppError(404, "Product not found", "Get single product error");
+    throw new AppError(404, "Product not found", "Get product error");
   }
   return sendResponse(
     res,
@@ -63,23 +64,34 @@ productController.findProductByName = catchAsync(async (req, res, next) => {
     true,
     { product, total, totalPagesSearch },
     null,
-    "Get single product successful"
+    "Get product successful"
   );
 });
 
-productController.filterProducts = catchAsync(async (req, res, next) => {
-  const { catagories } = req.body;
-  const product = await Product.find({ catagories: catagories });
-  if (!product) {
-    throw new AppError(404, "Product not found", "Get single product error");
+productController.getProductsCatagory = catchAsync(async (req, res, next) => {
+  let { page, limit } = req.query;
+  const { catagory } = req.body;
+  page = parseInt(page) || 1;
+  limit = parseInt(limit) || 12;
+  const offset = limit * (page - 1);
+  const total = await Product.find({
+    catagories: catagory,
+  }).countDocuments();
+  const totalPagesCatagory = Math.ceil(total / limit);
+
+  const products = await Product.find({ catagories: catagory })
+    .skip(offset)
+    .limit(limit);
+  if (products.length === 0) {
+    throw new AppError(404, "Product not found", "Get product catagory error");
   }
   return sendResponse(
     res,
     200,
     true,
-    { product },
+    { products, totalPagesCatagory },
     null,
-    "filter product successful"
+    "get product catagory successful"
   );
 });
 

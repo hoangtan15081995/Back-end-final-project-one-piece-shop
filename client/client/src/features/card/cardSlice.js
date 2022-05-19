@@ -71,7 +71,7 @@ export const deleteProductsInCard = (productId) => async (dispatch) => {
   dispatch(slice.actions.startLoading());
   try {
     console.log("iddel", productId);
-    const response = await apiService.delete("/cards/delete", { productId });
+    const response = await apiService.put("/cards/delete", { productId });
     console.log("det", response);
     const res = await apiService.get("/cards/list");
     dispatch(
@@ -87,6 +87,7 @@ export const deleteProductsInCard = (productId) => async (dispatch) => {
 export const addProductsToCard = (productId) => async (dispatch) => {
   dispatch(slice.actions.startLoading);
   try {
+    console.log("productidsearch", productId);
     const response = await apiService.post("/cards/add", { productId });
     const res = await apiService.get("cards/list");
     console.log("resca", res.data.data.currentCart.products);

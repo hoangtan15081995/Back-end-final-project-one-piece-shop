@@ -5,7 +5,7 @@ const {
   getAllProducts,
   getSingleProductById,
   findProductByName,
-  filterProducts,
+  getProductsCatagory,
 } = require("../controllers/product.controller");
 const { loginRequired } = require("../middlewares/authentication");
 const router = express.Router();
@@ -25,8 +25,8 @@ router.post(
 );
 
 router.post(
-  "/filter",
-  validate([body("catagories").exists().isString()]),
-  filterProducts
+  "/catagory",
+  validate([body("catagory").exists().isString()]),
+  getProductsCatagory
 );
 module.exports = router;

@@ -1,5 +1,6 @@
 import { createContext, useReducer, useEffect } from "react";
 import apiService from "../app/apiService";
+import { getCurrentUserProfile } from "../features/user/userSlice";
 import { isValidToken } from "../utils/jwt";
 
 const initialState = {
@@ -60,6 +61,7 @@ const AuthContext = createContext({ ...initialState });
 
 function AuthProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
+
   useEffect(() => {
     const initialize = async () => {
       try {

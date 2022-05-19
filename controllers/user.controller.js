@@ -134,11 +134,7 @@ userController.updatePassword = catchAsync(async (req, res, next) => {
 userController.deactivateCurrentUser = catchAsync(async (req, res, next) => {
   const { currentUserId } = req;
   //delete password confirm
-  await User.findByIdAndUpdate(
-    currentUserId,
-    { isDeleted: true },
-    { new: true }
-  );
+  await User.findByIdAndDelete(currentUserId);
   return sendResponse(res, 200, {}, null, "Deactivate user successful");
 });
 module.exports = userController;

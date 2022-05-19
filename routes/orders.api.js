@@ -13,11 +13,7 @@ const router = express.Router();
 router.post(
   "/add",
   loginRequired,
-  validate([
-    body("phone").exists().isString(),
-    body("address").exists().isString(),
-    body("totalPrice").exists().isString(),
-  ]),
+  validate([body("phone").exists(), body("address").exists().isString()]),
   addNewOrders
 );
 router.get("/list", loginRequired, getListOrders);

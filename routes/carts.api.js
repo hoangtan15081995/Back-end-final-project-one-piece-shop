@@ -31,7 +31,7 @@ router.put(
   updateProductCart
 );
 
-router.delete(
+router.put(
   "/delete",
   loginRequired,
   validate([body("productId").exists().isString()]),

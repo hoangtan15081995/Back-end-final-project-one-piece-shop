@@ -117,7 +117,7 @@
 /* Active state */
 .search-bar input:focus+.search-btn,
 .search-bar input:valid+.search-btn {
-  background: #2762f3;
+  background: #35abe6;
   border-radius: 0 0.375em 0.375em 0;
   transform: scale(1);
 }
@@ -132,7 +132,7 @@
 .search-bar input:focus+.search-btn:hover,
 .search-bar input:valid+.search-btn:hover,
 .search-bar input:valid:not(:focus)+.search-btn:focus {
-  background: #0c48db;
+  background: #35abe6;
 }
 
 .search-bar input:focus+.search-btn:active,

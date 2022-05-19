@@ -10,7 +10,7 @@ import { Link as RouterLink } from "react-router-dom";
 import AddToCard from "./AddToCard";
 import "./styleCard.css";
 
-export default function FCardSearch({ product }) {
+export default function FCardCatagory({ product }) {
   const dispatch = useDispatch();
   const { _id } = product;
   const handleOnclick = () => {

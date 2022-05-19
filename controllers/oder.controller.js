@@ -5,31 +5,33 @@ const Order = require("../models/Order");
 const Product = require("../models/Product");
 
 const orderController = {};
+
 orderController.addNewOrders = catchAsync(async (req, res, next) => {
   const { currentUserId } = req;
-  const { phone, address, totalPrice } = req.body;
+  const { address, phone } = req.body;
+  console.log(address, phone);
 
-  const cart = await Cart.findOne({ owner: currentUserId, isDeleted: false });
-  const orderCart = await Order.findOne({ owner: currentUserId });
+  const cart = await Cart.findOne({ owner: currentUserId });
+  // const orderCart = await Order.findOne({ owner: currentUserId });
   if (!cart) {
     throw new AppError(404, "Your cart not found", "Add new order error");
   }
-  if (orderCart) {
-    throw new AppError(404, "Your cart ready exitls", "Add new order error");
-  }
-
+  // if (orderCart) {
+  //   throw new AppError(404, "Your cart ready exitls", "Add new order error");
+  // }
   const order = await Order.create({
     owner: currentUserId,
     products: cart.products,
     phone: parseInt(phone),
     address: address,
-    totalPrice: parseInt(totalPrice),
+    // totalPrice: parseInt(totalPrice),
     status: "pending",
   });
-  cart.isDeleted = true;
-  cart.save();
+  // cart.isDeleted = true;
+  // cart.save();
   return sendResponse(res, 200, true, { order }, null, "order succesfull");
 });
+
 orderController.getListOrders = catchAsync(async (req, res, next) => {
   const { currentUserId } = req;
   let { page, limit } = req.query;
