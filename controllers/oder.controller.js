@@ -8,7 +8,7 @@ const orderController = {};
 
 orderController.addNewOrders = catchAsync(async (req, res, next) => {
   const { currentUserId } = req;
-  const { address, phone } = req.body;
+  const { address, phone, totalPrice } = req.body;
   console.log(address, phone);
 
   const cart = await Cart.findOne({ owner: currentUserId });
@@ -23,10 +23,12 @@ orderController.addNewOrders = catchAsync(async (req, res, next) => {
     owner: currentUserId,
     products: cart.products,
     phone: parseInt(phone),
+    totalPrice: totalPrice,
     address: address,
     // totalPrice: parseInt(totalPrice),
-    status: "pending",
+    status: "Pending",
   });
+
   // cart.isDeleted = true;
   // cart.save();
   return sendResponse(res, 200, true, { order }, null, "order succesfull");
@@ -36,16 +38,18 @@ orderController.getListOrders = catchAsync(async (req, res, next) => {
   const { currentUserId } = req;
   let { page, limit } = req.query;
   page = parseInt(page) || 1;
-  limit = parseInt(limit) || 2;
+  limit = parseInt(limit) || 5;
   const offset = limit * (page - 1);
   const total = await Order.find({ owner: currentUserId }).countDocuments();
-  const totalPagesOrder = Math.ceil(total / limit);
+  const totalPagesListOrder = Math.ceil(total / limit);
 
-  const listOrder = await Order.find({ owner: currentUserId })
+  let listOrder = await Order.find({ owner: currentUserId })
+    .sort({ createdAt: -1 })
     .skip(offset)
     .limit(limit)
     .populate("owner")
     .populate({ path: "products", populate: "product" });
+
   // if (!currentOrder) {
   //   throw new AppError(404, "productCart not found", "get list product error");
   // }
@@ -54,15 +58,15 @@ orderController.getListOrders = catchAsync(async (req, res, next) => {
     res,
     200,
     true,
-    { listOrder, totalPagesOrder },
+    { listOrder, totalPagesListOrder },
     null,
-    "Get list order cart success"
+    "Get list order success"
   );
 });
 orderController.updateOrders = catchAsync(async (req, res, next) => {
   const { currentUserId } = req;
-  const { phone, address } = req.body;
-  const { orderId } = req.params;
+  const { phone, address, orderId } = req.body;
+  // const { orderId } = req.params;
 
   let currentOrder = await Order.findOne({
     owner: currentUserId,
@@ -72,15 +76,15 @@ orderController.updateOrders = catchAsync(async (req, res, next) => {
   // if (currentOrder.data.status !== "pending") {
   //   throw new AppError(404, "can not update", "update order error");
   // }
-  if (!currentOrder) {
+
+  if (currentOrder.status == "Pending") {
+    currentOrder.status = "Done";
+  } else {
     throw new AppError(
       404,
       "You can not update this order",
       "update order error"
     );
-  } else {
-    currentOrder.phone = parseInt(phone);
-    currentOrder.address = address;
   }
 
   currentOrder.save();
@@ -97,20 +101,12 @@ orderController.updateOrders = catchAsync(async (req, res, next) => {
 
 orderController.deleteOrders = catchAsync(async (req, res, next) => {
   const { currentUserId } = req;
-  const { orderId } = req.params;
-
-  await Order.deleteOne({
-    owner: currentUserId,
-    _id: orderId,
-  });
-  return sendResponse(
-    res,
-    200,
-    true,
-    { Order },
-    null,
-    "delete order successful"
-  );
+  const { id } = req.params;
+  await Order.findByIdAndDelete(id);
+  // listOrder = listOrder.filter((order) => {
+  //   return order._id.toString() !== orderId;
+  // });
+  return sendResponse(res, 200, true, null, null, "delete order successful");
 });
 
 module.exports = orderController;

@@ -55,10 +55,10 @@ export const updateUserProfile =
         email,
       });
       dispatch(slice.actions.updateUserProfileSuccess(response.data.success));
-      toast.success("Update Profile successfully");
+      toast.success("Update Profile success");
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
-      toast.error(error.message);
+      toast.error("Update Profile error");
     }
   };
 
@@ -85,21 +85,25 @@ export const updatePassword =
         confirmPassword,
       });
       dispatch(slice.actions.updatePasswordSuccess(response.data.success));
+      toast.success("Updated password success!");
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
-      toast.error(error.message);
+      toast.error("Can't update password");
     }
   };
 
 export const deleteAccount = () => async (dispatch) => {
   dispatch(slice.actions.startLoading());
   try {
-    const accessToken = window.localStorage.getItem("accessToken");
-    apiService.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+    // const accessToken = window.localStorage.getItem("accessToken");
+    // apiService.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
     const response = await apiService.delete("/users/me/deactivate");
     dispatch(slice.actions.deleteAccountSuccess(response.data.success));
+    window.localStorage.removeItem("accessToken");
+    delete apiService.defaults.headers.common.Authorization;
+    toast.success("Deleted Account Success");
   } catch (error) {
     dispatch(slice.actions.hasError(error.message));
-    toast.error(error.message);
+    toast.error("Can't delete account");
   }
 };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Link,
   Stack,
@@ -63,6 +63,12 @@ function LoginPage() {
       setError("responseError", error);
     }
   };
+  const accessToken = window.localStorage.getItem("accessToken");
+  useEffect(() => {
+    if (accessToken) {
+      navigate("/");
+    }
+  }, []);
 
   return (
     <Container maxWidth="xs">

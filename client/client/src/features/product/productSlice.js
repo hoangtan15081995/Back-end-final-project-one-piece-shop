@@ -126,7 +126,7 @@ export const getProductsByName = (searchquery) => async (dispatch) => {
     // searchquery = searchquery.toLowerCase();
     const response = await apiService.post("/products/find", { searchquery });
     console.log(response.data.data.product);
-
+    // toast.success("Find product success");
     dispatch(
       slice.actions.getProductsByNameSuccess({
         productsByName: response.data.data.product,
@@ -135,7 +135,7 @@ export const getProductsByName = (searchquery) => async (dispatch) => {
     );
   } catch (error) {
     dispatch(slice.actions.hasError(error.message));
-    toast.error(error.message);
+    toast.error("Don't find product");
   }
 };
 

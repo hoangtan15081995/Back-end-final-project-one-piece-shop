@@ -3,7 +3,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getPagePagination } from "../features/product/productSlice";
 
-function FPaginationSearch() {
+function FPagination() {
   const dispatch = useDispatch();
   const { page, totalPages } = useSelector((state) => state.product);
   const handleChangePage = (event, newPage) => {
@@ -39,4 +39,4 @@ function FPaginationSearch() {
   );
 }
 
-export default FPaginationSearch;
+export default FPagination;

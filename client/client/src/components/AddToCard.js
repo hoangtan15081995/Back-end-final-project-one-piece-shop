@@ -17,11 +17,8 @@ function AddToCard({ id }) {
       navigate("/login", { state: { from: location } });
     } else {
       dispatch(addProductsToCard(id));
-      toast.success("Add Product Success!");
     }
   };
-  // const { productsInCard } = useSelector((state) => state.card);
-  // console.log("pro", productsInCard);
   return (
     <AuthRequire>
       <Button

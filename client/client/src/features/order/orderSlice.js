@@ -7,7 +7,8 @@ const initialState = {
   error: null,
   order: {},
   ordersList: [],
-  totalPagesOrder: 1,
+  pageListOrder: 1,
+  totalPagesListOrder: 1,
 };
 
 const slice = createSlice({
@@ -31,22 +32,33 @@ const slice = createSlice({
       state.isLoading = false;
       state.hasError = null;
       state.ordersList = action.payload.ordersList;
+      state.totalPagesListOrder = action.payload.totalPagesListOrder;
+    },
+    getPagePaginationListOrderSuccess(state, action) {
+      state.isLoading = false;
+      state.error = null;
+      state.pageListOrder = action.payload;
     },
   },
 });
 
 export const addNewOrder =
-  ({ address, phone }) =>
+  ({ address, phone, totalPrice }) =>
   async (dispatch) => {
     dispatch(slice.actions.startLoading);
     try {
       console.log(typeof address, typeof phone);
       const accessToken = window.localStorage.getItem("accessToken");
       apiService.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-      const response = await apiService.post("/orders/add", { address, phone });
+      const response = await apiService.post("/orders/add", {
+        address,
+        phone,
+        totalPrice,
+      });
       // const res = await apiService.get("orders/list");
       console.log("response order", response);
       // console.log("res", res);
+      toast.success("Order success");
       dispatch(
         slice.actions.addNewOrderSuccess({
           order: response.data.data.order,
@@ -54,22 +66,72 @@ export const addNewOrder =
       );
     } catch (error) {
       console.log(error);
+      toast.error("Order error");
     }
   };
 
-export const getListOrders = () => async (dispatch) => {
+export const getListOrders = (pageListOrder) => async (dispatch) => {
   dispatch(slice.actions.startLoading);
   try {
-    const response = await apiService.get("/orders/list");
+    const response = await apiService.get(`/orders/list?page=${pageListOrder}`);
     console.log("response ordersList", response);
     dispatch(
       slice.actions.getListOrdersSuccess({
         ordersList: response.data.data.listOrder,
-        totalPagesOrder: response.data.data.totalPagesOrder,
+        totalPagesListOrder: response.data.data.totalPagesListOrder,
       })
     );
   } catch (error) {
     console.log(error);
   }
 };
+
+export const updateOrders = (orderId, pageListOrder) => async (dispatch) => {
+  dispatch(slice.actions.startLoading);
+  try {
+    const response = await apiService.put("/orders/update", { orderId });
+    console.log("response ordersList", response);
+    const res = await apiService.get(`/orders/list?page=${pageListOrder}`);
+    toast.success("Order Completed!");
+    dispatch(
+      slice.actions.getListOrdersSuccess({
+        ordersList: res.data.data.listOrder,
+        totalPagesListOrder: res.data.data.totalPagesListOrder,
+      })
+    );
+  } catch (error) {
+    console.log(error);
+    toast.error("Completed error");
+  }
+};
+
+export const deleteOrders = (orderId, pageListOrder) => async (dispatch) => {
+  dispatch(slice.actions.startLoading);
+  try {
+    const response = await apiService.put(`/orders/${orderId}`);
+    const res = await apiService.get(`/orders/list?page=${pageListOrder}`);
+    toast.success("Order Completed!");
+    dispatch(
+      slice.actions.getListOrdersSuccess({
+        ordersList: res.data.data.listOrder,
+        totalPagesListOrder: res.data.data.totalPagesListOrder,
+      })
+    );
+  } catch (error) {
+    console.log(error);
+    toast.error("Completed error");
+  }
+};
+
+export const getPagePaginationListOrder =
+  (pageListOrder) => async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      dispatch(slice.actions.getPagePaginationListOrderSuccess(pageListOrder));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.message));
+      toast.error(error.message);
+    }
+  };
+
 export default slice.reducer;

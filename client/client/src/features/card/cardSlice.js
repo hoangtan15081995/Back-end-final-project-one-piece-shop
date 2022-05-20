@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 import apiService from "../../app/apiService";
 
 const initialState = {
@@ -93,6 +94,7 @@ export const addProductsToCard = (productId) => async (dispatch) => {
     const response = await apiService.post("/cards/add", { productId });
     const res = await apiService.get("cards/list");
     console.log("resca", res.data.data.currentCart.products);
+    toast.success("Add Product Success!");
     dispatch(
       slice.actions.addProductsToCardSuccess({
         productsInCard: res.data.data.currentCart.products,
@@ -101,6 +103,7 @@ export const addProductsToCard = (productId) => async (dispatch) => {
     console.log("productscard", response.data.data.products);
   } catch (error) {
     console.log(error);
+    toast.error("Product already exists!");
   }
 };
 export const getProductsInCard = () => async (dispatch) => {

@@ -25,6 +25,7 @@ import {
   setProductsInCard,
 } from "../features/card/cardSlice";
 import { Link, useNavigate } from "react-router-dom";
+import { fCurrency } from "../utils/fcurrency";
 
 const OrderUserSchema = yup.object().shape({
   address: yup.string().required("name is required"),
@@ -55,10 +56,15 @@ function OrderPage() {
   } = methods;
 
   const onSubmit = (data) => {
+    let totalPrice = productsInCard.reduce(function (previousValue, product) {
+      return previousValue + product.product.price * product.quantity;
+    }, 0);
+
     console.log("dada", data);
-    dispatch(addNewOrder({ address: data.address, phone: data.phone }));
+    dispatch(
+      addNewOrder({ address: data.address, phone: data.phone, totalPrice })
+    );
     navigate("/checkout");
-    // dispatch(setProductsInCard());
   };
 
   return (
@@ -84,10 +90,13 @@ function OrderPage() {
                   <TableCell component="th" scope="row">
                     {product.product.productName}
                   </TableCell>
-                  <TableCell align="center">{product.product.price}</TableCell>
+                  <TableCell align="center">
+                    {" "}
+                    {fCurrency(product.product.price)}
+                  </TableCell>
                   <TableCell align="center">{product.quantity}</TableCell>
                   <TableCell align="center">
-                    {product.product.price * product.quantity}
+                    {fCurrency(product.product.price * product.quantity)}
                   </TableCell>
                 </TableRow>
               ))}
@@ -98,11 +107,13 @@ function OrderPage() {
                 <TableCell />
                 <TableCell>Total Price</TableCell>
                 <TableCell>
-                  {productsInCard.reduce(function (previousValue, product) {
-                    return (
-                      previousValue + product.product.price * product.quantity
-                    );
-                  }, 0)}
+                  {fCurrency(
+                    productsInCard.reduce(function (previousValue, product) {
+                      return (
+                        previousValue + product.product.price * product.quantity
+                      );
+                    }, 0)
+                  )}
                 </TableCell>
               </TableRow>
             </TableBody>

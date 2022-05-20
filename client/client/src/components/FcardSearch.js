@@ -3,12 +3,13 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { Button, CardActionArea, CardActions } from "@mui/material";
+import { Button, CardActionArea, CardActions, Stack } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { getProductsById } from "../features/product/productSlice";
 import { Link as RouterLink } from "react-router-dom";
 import AddToCard from "./AddToCard";
 import "./styleCard.css";
+import { fCurrency } from "../utils/fcurrency";
 
 export default function FCardSearch({ product }) {
   const dispatch = useDispatch();
@@ -40,7 +41,14 @@ export default function FCardSearch({ product }) {
                 : product.productName}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {product.price}
+              <Stack
+                flexDirection="row"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Stack>Price: {fCurrency(product.price)}</Stack>
+                <Stack>Quantity: {product.totalProducts}</Stack>
+              </Stack>
             </Typography>
           </CardContent>
         </CardActionArea>

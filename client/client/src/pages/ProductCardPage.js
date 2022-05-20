@@ -19,6 +19,7 @@ import {
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { getProductsInCard } from "../features/card/cardSlice";
+import { fCurrency } from "../utils/fcurrency";
 
 export default function ProductCardPage() {
   const dispatch = useDispatch();
@@ -69,7 +70,7 @@ export default function ProductCardPage() {
                       {product.product.productName}
                     </TableCell>
                     <TableCell align="center">
-                      {product.product.price}
+                      {fCurrency(product.product.price)}
                     </TableCell>
                     <TableCell align="center">
                       <Button
@@ -89,7 +90,7 @@ export default function ProductCardPage() {
                       </Button>
                     </TableCell>
                     <TableCell align="center">
-                      {product.product.price * product.quantity}
+                      {fCurrency(product.product.price * product.quantity)}
                     </TableCell>
                     <TableCell align="center">
                       <Button
@@ -107,11 +108,14 @@ export default function ProductCardPage() {
                   <TableCell />
                   <TableCell>Total Price</TableCell>
                   <TableCell>
-                    {productsInCard.reduce(function (previousValue, product) {
-                      return (
-                        previousValue + product.product.price * product.quantity
-                      );
-                    }, 0)}
+                    {fCurrency(
+                      productsInCard.reduce(function (previousValue, product) {
+                        return (
+                          previousValue +
+                          product.product.price * product.quantity
+                        );
+                      }, 0)
+                    )}
                   </TableCell>
                 </TableRow>
               </TableBody>

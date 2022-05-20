@@ -13,11 +13,15 @@ const router = express.Router();
 router.post(
   "/add",
   loginRequired,
-  validate([body("phone").exists(), body("address").exists().isString()]),
+  validate([
+    body("phone").exists(),
+    body("address").exists().isString(),
+    body("totalPrice").exists(),
+  ]),
   addNewOrders
 );
 router.get("/list", loginRequired, getListOrders);
-router.put("/update/:orderId", loginRequired, updateOrders);
-router.delete("/delete/:orderId", loginRequired, deleteOrders);
+router.put("/update", loginRequired, updateOrders);
+router.put("/:id", loginRequired, deleteOrders);
 
 module.exports = router;

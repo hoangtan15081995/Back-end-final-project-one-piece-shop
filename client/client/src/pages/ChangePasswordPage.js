@@ -64,7 +64,7 @@ function ChangePasswordPage() {
         <Stack spacing={3}>
           <FTextField
             name="password"
-            label="password"
+            label="Password"
             type={showPassword ? "text" : "password"}
             InputProps={{
               endAdornment: (
@@ -110,7 +110,7 @@ function ChangePasswordPage() {
             variant="contained"
             loading={isSubmitting}
           >
-            Submmit
+            Change Password
           </LoadingButton>
         </Stack>
       </FormProvider>
