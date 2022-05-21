@@ -20,7 +20,7 @@ import SearchForm from "../components/SearchForm";
 import SearchFormDemo from "../components/SearchFormDemo";
 import useAuth from "../hooks/useAuth";
 import { Link, useNavigate } from "react-router-dom";
-import { alertClasses } from "@mui/material";
+import { alertClasses, Avatar } from "@mui/material";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { getProductsInCard } from "../features/card/cardSlice";
@@ -35,6 +35,7 @@ export default function PrimarySearchAppBar() {
     dispatch(getProductsInCard());
   }, []);
   const auth = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -164,7 +165,7 @@ export default function PrimarySearchAppBar() {
       onClose={handleMobileMenuClose}
     >
       <Link
-        style={{ textDecoration: "none", color: "white" }}
+        style={{ textDecoration: "none", color: "black" }}
         to="/productcard"
       >
         <MenuItem>
@@ -273,7 +274,7 @@ export default function PrimarySearchAppBar() {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <AccountCircle />
+              <Avatar src={user.avatarURL} />
             </IconButton>
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>

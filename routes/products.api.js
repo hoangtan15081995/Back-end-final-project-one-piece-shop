@@ -6,11 +6,13 @@ const {
   getSingleProductById,
   findProductByName,
   getProductsCatagory,
+  getUpdateQuantityProduct,
 } = require("../controllers/product.controller");
 const { loginRequired } = require("../middlewares/authentication");
 const router = express.Router();
 
 router.get("/list", getAllProducts);
+// router.get("/listall/:id", loginRequired, getUpdateQuantityProduct);
 
 router.get(
   "/:productId",

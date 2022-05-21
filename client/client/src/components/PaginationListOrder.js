@@ -26,16 +26,16 @@ function PaginationListOrder() {
         justifyContent="center"
         alignItems="center"
       >
-        {/* {totalPagesListOrder > 1 ? ( */}
-        <Pagination
-          page={pageListOrder}
-          onChange={handleChangePage}
-          count={totalPagesListOrder}
-          color="primary"
-        />
-        {/* ) : (
+        {totalPagesListOrder > 1 ? (
+          <Pagination
+            page={pageListOrder}
+            onChange={handleChangePage}
+            count={totalPagesListOrder}
+            color="primary"
+          />
+        ) : (
           ""
-        )} */}
+        )}
       </Stack>
     </Box>
   );

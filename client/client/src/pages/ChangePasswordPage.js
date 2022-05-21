@@ -6,6 +6,8 @@ import {
   IconButton,
   InputAdornment,
   Container,
+  Box,
+  Typography,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -59,59 +61,103 @@ function ChangePasswordPage() {
     dispatch(updatePassword(password, passwordConfirmation));
   };
   return (
-    <Container sx={{ mt: 30 }} maxWidth="xs">
+    <Container
+      sx={{
+        minHeight: "100vh",
+        mt: 3,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Typography mb={5} id="modal-modal-title" variant="h5" component="h2">
+        Change Your Password
+      </Typography>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={3}>
-          <FTextField
-            name="password"
-            label="Password"
-            type={showPassword ? "text" : "password"}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={() => setShowPassword(!showPassword)}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
-                  </IconButton>
-                </InputAdornment>
-              ),
+          <Box
+            sx={{
+              width: 500,
+              height: 220,
+              display: "flex",
+              alignItems: "center",
+              flexDirection: "column",
+              justifyContent: "space-between",
             }}
-          />
-          <FTextField
-            name="passwordConfirmation"
-            label="Password Confirmation"
-            type={showPasswordConfirmation ? "text" : "password"}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={() =>
-                      setShowPasswordConfirmation(!showPasswordConfirmation)
-                    }
-                    edge="end"
-                  >
-                    {showPasswordConfirmation ? (
-                      <VisibilityIcon />
-                    ) : (
-                      <VisibilityOffIcon />
-                    )}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-
-          <LoadingButton
-            fullWidth
-            size="large"
-            type="submit"
-            variant="contained"
-            loading={isSubmitting}
           >
-            Change Password
-          </LoadingButton>
+            <FTextField
+              name="password"
+              label="New Password"
+              type={showPassword ? "text" : "password"}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => setShowPassword(!showPassword)}
+                      edge="end"
+                    >
+                      {showPassword ? (
+                        <VisibilityIcon />
+                      ) : (
+                        <VisibilityOffIcon />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+            {/* </Box>
+          <Box
+            sx={{
+              width: 600,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          > */}
+            <FTextField
+              name="passwordConfirmation"
+              label="Password Confirmation"
+              type={showPasswordConfirmation ? "text" : "password"}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() =>
+                        setShowPasswordConfirmation(!showPasswordConfirmation)
+                      }
+                      edge="end"
+                    >
+                      {showPasswordConfirmation ? (
+                        <VisibilityIcon />
+                      ) : (
+                        <VisibilityOffIcon />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+            {/* </Box>
+          <Box
+            sx={{
+              width: 600,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          > */}
+            <LoadingButton
+              sx={{ width: 300 }}
+              size="large"
+              type="submit"
+              variant="contained"
+              loading={isSubmitting}
+            >
+              Change Password
+            </LoadingButton>
+          </Box>
         </Stack>
       </FormProvider>
     </Container>

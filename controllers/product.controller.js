@@ -21,6 +21,29 @@ productController.getAllProducts = catchAsync(async (req, res, next) => {
     "Get all products success"
   );
 });
+// productController.getUpdateQuantityProduct = catchAsync(
+//   async (req, res, next) => {
+//     //  const { currentUserId } = req;
+//     const { id } = req.params;
+//     let products = await Product.find();
+//     products = products.map((product) => {
+//       if (product.id === id) {
+//         product.totalProducts -= 1;
+//       }
+//       // if (product.id === id && product.totalProducts === 0) {
+//       //   product.totalProducts = "Hết Hàng";
+//       // }
+//     });
+//     return sendResponse(
+//       res,
+//       200,
+//       true,
+//       { products },
+//       null,
+//       "Get all products success"
+//     );
+//   }
+// );
 
 productController.getSingleProductById = catchAsync(async (req, res, next) => {
   const { productId } = req.params;

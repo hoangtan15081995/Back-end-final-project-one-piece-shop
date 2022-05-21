@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { useDispatch, useSelector } from "react-redux";
 import { addProductsToCard } from "../features/card/cardSlice";
+// import { updateQuantityProduct } from "../features/product/productSlice";
 import { toast } from "react-toastify";
 
 function AddToCard({ id }) {
@@ -17,6 +18,7 @@ function AddToCard({ id }) {
       navigate("/login", { state: { from: location } });
     } else {
       dispatch(addProductsToCard(id));
+      // dispatch(updateQuantityProduct(id));
     }
   };
   return (

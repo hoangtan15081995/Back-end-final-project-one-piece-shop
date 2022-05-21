@@ -4,11 +4,18 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { Button, CardActionArea, CardActions, Container } from "@mui/material";
+import {
+  Button,
+  CardActionArea,
+  CardActions,
+  Container,
+  Stack,
+} from "@mui/material";
 import AddToCard from "./AddToCard";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductsById } from "../features/product/productSlice";
+import { fCurrency } from "../utils/fcurrency";
 
 export default function CardDetail() {
   const dispatch = useDispatch();
@@ -29,11 +36,11 @@ export default function CardDetail() {
         alignItems: "center",
       }}
     >
-      <Card sx={{ maxWidth: 270 }}>
-        <CardActionArea>
+      <Card sx={{ maxWidth: 900 }}>
+        <CardActionArea sx={{ display: "flex" }}>
           <CardMedia
             component="img"
-            height="400"
+            height="500"
             image={productById.image}
             alt="green iguana"
           />
@@ -44,10 +51,19 @@ export default function CardDetail() {
             <Typography variant="body2" color="text.secondary">
               {productById.description}
             </Typography>
+            <Stack
+              sx={{ mt: 5 }}
+              flexDirection="row"
+              justifyContent="space-around"
+              alignItems="center"
+            >
+              <Stack>Price: {fCurrency(productById.price)}</Stack>
+              <Stack>Quantity: {productById.totalProducts}</Stack>
+            </Stack>
           </CardContent>
         </CardActionArea>
-        <CardActions>
-          <AddToCard />
+        <CardActions sx={{ justifyContent: "center" }}>
+          <AddToCard id={productId} />
         </CardActions>
       </Card>
     </Container>

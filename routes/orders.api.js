@@ -5,6 +5,10 @@ const {
   getListOrders,
   updateOrders,
   deleteOrders,
+  getOrderById,
+  updateOrderById,
+  updateProductOrderById,
+  deleteProductOrderById,
 } = require("../controllers/oder.controller");
 const { loginRequired } = require("../middlewares/authentication");
 const { validate, checkObjectId } = require("../middlewares/validator");
@@ -21,7 +25,11 @@ router.post(
   addNewOrders
 );
 router.get("/list", loginRequired, getListOrders);
+router.get("/list/:id", loginRequired, getOrderById);
 router.put("/update", loginRequired, updateOrders);
+router.put("/update/:id", loginRequired, updateOrderById);
+router.put("/update/product/:id", loginRequired, updateProductOrderById);
+router.put("/delete/product/:id", loginRequired, deleteProductOrderById);
 router.put("/:id", loginRequired, deleteOrders);
 
 module.exports = router;

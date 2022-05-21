@@ -17,7 +17,7 @@ function Logo({ disabledLink = false, sx }) {
     navigate("/");
   };
   const logo = (
-    <Box sx={{ width: 40, height: 40, ...sx }}>
+    <Box sx={{ width: 60, height: 60, ...sx }}>
       <img src={logoImg} alt="logo" width="100%" />
     </Box>
   );
@@ -26,7 +26,7 @@ function Logo({ disabledLink = false, sx }) {
     return <>{logo}</>;
   }
 
-  return <Stack onClick={handleOnclick}>{logo}</Stack>;
+  return <Box onClick={handleOnclick}>{logo}</Box>;
 }
 
 export default Logo;

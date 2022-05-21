@@ -63,6 +63,40 @@ orderController.getListOrders = catchAsync(async (req, res, next) => {
     "Get list order success"
   );
 });
+
+orderController.getOrderById = catchAsync(async (req, res, next) => {
+  const { currentUserId } = req;
+  const { id } = req.params;
+  let { page, limit } = req.query;
+  // page = parseInt(page) || 1;
+  // limit = parseInt(limit) || 5;
+  // const offset = limit * (page - 1);
+  const currentOrder = await Order.findOne({ _id: id })
+    .populate("owner")
+    .populate({ path: "products", populate: "product" });
+  // const totalPagesListOrder = Math.ceil(total / limit);
+
+  // let listOrder = await Order.find({ owner: currentUserId })
+  //   .sort({ createdAt: -1 })
+  //   .skip(offset)
+  //   .limit(limit)
+  //   .populate("owner")
+  //   .populate({ path: "products", populate: "product" });
+
+  // if (!currentOrder) {
+  //   throw new AppError(404, "productCart not found", "get list product error");
+  // }
+
+  return sendResponse(
+    res,
+    200,
+    true,
+    currentOrder,
+    null,
+    "Get single order success"
+  );
+});
+
 orderController.updateOrders = catchAsync(async (req, res, next) => {
   const { currentUserId } = req;
   const { phone, address, orderId } = req.body;
@@ -99,13 +133,116 @@ orderController.updateOrders = catchAsync(async (req, res, next) => {
   );
 });
 
+orderController.updateOrderById = catchAsync(async (req, res, next) => {
+  const { currentUserId } = req;
+  const { address, phone, totalPrice, products } = req.body;
+  const { id } = req.params;
+  console.log(address, phone, totalPrice, id);
+
+  let currentOrder = await Order.findOne({
+    owner: currentUserId,
+    _id: id,
+  });
+  currentOrder.address = address;
+  currentOrder.phone = phone;
+  currentOrder.totalPrice = totalPrice;
+  currentOrder.products = products;
+
+  currentOrder.save();
+
+  return sendResponse(
+    res,
+    200,
+    true,
+    currentOrder,
+    null,
+    "Update order successful"
+  );
+});
+
+orderController.updateProductOrderById = catchAsync(async (req, res, next) => {
+  const { currentUserId } = req;
+  const { condition, productId } = req.body;
+  const { id } = req.params;
+  console.log(condition, productId, id);
+
+  let currentOrder = await Order.findOne({
+    owner: currentUserId,
+    _id: id,
+  });
+  console.log("currentOrder", currentOrder);
+  if (!currentOrder) {
+    throw new AppError(
+      404,
+      "You can not update this product cart",
+      "update product cart error"
+    );
+  } else if (condition == "Ins") {
+    currentOrder.products.find(
+      (item) => item.product == productId
+    ).quantity += 1;
+  } else if (condition == "Des") {
+    currentOrder.products.find(
+      (item) => item.product == productId
+    ).quantity -= 1;
+  }
+  if (
+    currentOrder.products.find((item) => item.product == productId).quantity ==
+    0
+  ) {
+    currentOrder.products = currentOrder.products.filter((item) => {
+      return item.product.toString() !== productId;
+    });
+  }
+
+  currentOrder.save();
+
+  return sendResponse(
+    res,
+    200,
+    true,
+    currentOrder,
+    null,
+    "Update order successful"
+  );
+});
+
+orderController.deleteProductOrderById = catchAsync(async (req, res, next) => {
+  const { currentUserId } = req;
+  const { productId } = req.body;
+  const { id } = req.params;
+
+  let currentOrder = await Order.findOne({
+    owner: currentUserId,
+    _id: id,
+  });
+  if (!currentOrder) {
+    throw new AppError(
+      404,
+      "You can not delete this product cart",
+      "delete product cart error"
+    );
+  } else if (currentOrder.products.some((item) => item.product == productId)) {
+    currentOrder.products = currentOrder.products.filter((item) => {
+      return item.product.toString() !== productId;
+    });
+  }
+  currentOrder.save();
+
+  return sendResponse(
+    res,
+    200,
+    true,
+    currentOrder,
+    null,
+    "delete cart successful"
+  );
+});
+
 orderController.deleteOrders = catchAsync(async (req, res, next) => {
   const { currentUserId } = req;
   const { id } = req.params;
   await Order.findByIdAndDelete(id);
-  // listOrder = listOrder.filter((order) => {
-  //   return order._id.toString() !== orderId;
-  // });
   return sendResponse(res, 200, true, null, null, "delete order successful");
 });
 

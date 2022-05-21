@@ -37,7 +37,11 @@ const slice = createSlice({
       state.products = action.payload.products;
       state.totalPages = action.payload.totalPages;
     },
-
+    updateQuantityProductSuccess(state, action) {
+      state.isLoading = false;
+      state.error = null;
+      state.products = action.payload.products;
+    },
     getProductsByNameSuccess(state, action) {
       state.isLoading = false;
       state.error = null;
@@ -90,6 +94,21 @@ export const getProducts = (page) => async (dispatch) => {
     toast.error(error.message);
   }
 };
+
+// export const updateQuantityProduct = (id) => async (dispatch) => {
+//   dispatch(slice.actions.startLoading());
+//   try {
+//     const response = await apiService.get(`/products/listall/${id}`);
+//     dispatch(
+//       slice.actions.updateQuantityProductSuccess({
+//         products: response.data.data.products,
+//       })
+//     );
+//   } catch (error) {
+//     dispatch(slice.actions.hasError(error.message));
+//     toast.error(error.message);
+//   }
+// };
 
 export const getPagePagination = (page) => async (dispatch) => {
   dispatch(slice.actions.startLoading());

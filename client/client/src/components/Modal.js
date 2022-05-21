@@ -33,7 +33,7 @@ export default function BasicModal({ productCard }) {
   const handleClose = () => setOpen(false);
 
   return (
-    <div>
+    <>
       <Button onClick={handleOpen}>View</Button>
       <Modal
         open={open}
@@ -97,6 +97,6 @@ export default function BasicModal({ productCard }) {
           </Stack>
         </Box>
       </Modal>
-    </div>
+    </>
   );
 }

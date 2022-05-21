@@ -8,6 +8,7 @@ import { Link as RouterLink } from "react-router-dom";
 function ProductList() {
   const dispatch = useDispatch();
   const { products, page, productId } = useSelector((state) => state.product);
+  console.log(products);
   useEffect(() => {
     dispatch(getProducts(page));
   }, [dispatch, page]);
@@ -22,9 +23,7 @@ function ProductList() {
           md={4}
           lg={3}
         >
-          {/* <RouterLink to={`/detail/${productId}`}> */}
           <FCard product={product} />
-          {/* </RouterLink> */}
         </Grid>
       ))}
     </Grid>

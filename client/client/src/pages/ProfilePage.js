@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography, Container, Avatar } from "@mui/material";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FormProvider, FTextField } from "../components/form";
@@ -13,6 +13,7 @@ import {
 } from "../features/user/userSlice";
 import { useEffect } from "react";
 import { LoadingButton } from "@mui/lab";
+import ModalDeleteAccount from "../components/ModalDeleteAccount";
 
 const UpdateUserSchema = yup.object().shape({
   name: yup.string().required("name is required"),
@@ -51,40 +52,79 @@ function ProfilePage() {
   };
   return (
     <>
-      <Box
-        justifyContent="center"
-        alignItems="center"
-        display="flex"
-        flexDirection="column"
-        sx={{ maxWidth: 600, mt: 20 }}
+      <Container
+        sx={{
+          minHeight: "100vh",
+          mt: 3,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
       >
-        <Typography sx={{ fontSize: "1.2rem" }}>My profile</Typography>
-        <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-          <FTextField sx={{ mt: 5 }} name="name" />
-          <FTextField sx={{ mt: 5 }} name="email" />
-
-          <Stack
-            alignItems="center"
-            sx={{ mt: 5, textAlign: "center", width: "100%" }}
-          >
-            <LoadingButton
-              type="submit"
-              variant="contained"
-              loading={isSubmitting}
-            >
-              Save
-            </LoadingButton>
-          </Stack>
-        </FormProvider>
-        <LoadingButton
-          sx={{ mt: 5 }}
-          variant="contained"
-          loading={isSubmitting}
-          onClick={handleOnclick}
+        <Box
+          justifyContent="center"
+          alignItems="center"
+          display="flex"
+          flexDirection="column"
+          sx={{ maxWidth: 600 }}
         >
-          Delete Account
-        </LoadingButton>
-      </Box>
+          <Typography sx={{ fontSize: "1.5rem" }}>Your Profile</Typography>
+          <Avatar
+            sx={{ width: 100, height: 100, mt: 5 }}
+            src={user.avatarURL}
+          />
+          <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+            <Box
+              sx={{
+                width: 500,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Typography sx={{ fontSize: "1.2rem", mt: 5, width: 100 }}>
+                Name
+              </Typography>
+              <FTextField sx={{ mt: 5 }} name="name" />
+            </Box>
+            <Box
+              sx={{
+                width: 500,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Typography sx={{ fontSize: "1.2rem", mt: 5, width: 100 }}>
+                Email
+              </Typography>
+              <FTextField sx={{ mt: 5 }} name="email" />
+            </Box>
+
+            <Stack
+              alignItems="center"
+              sx={{ mt: 5, textAlign: "center", width: "100%" }}
+            >
+              <LoadingButton
+                type="submit"
+                variant="contained"
+                loading={isSubmitting}
+              >
+                Save
+              </LoadingButton>
+            </Stack>
+          </FormProvider>
+          {/* <LoadingButton
+            sx={{ mt: 5 }}
+            variant="contained"
+            loading={isSubmitting}
+            onClick={handleOnclick}
+          >
+            Delete Account
+          </LoadingButton> */}
+          <ModalDeleteAccount />
+        </Box>
+      </Container>
     </>
   );
 }

@@ -16,12 +16,13 @@ import {
   updateProductsInCard,
   deleteProductsInCard,
 } from "../features/card/cardSlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { getProductsInCard } from "../features/card/cardSlice";
 import { fCurrency } from "../utils/fcurrency";
 
 export default function ProductCardPage() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleOnclickIncre = (productId, condition) => {
     dispatch(updateProductsInCard(productId, condition));
@@ -39,7 +40,9 @@ export default function ProductCardPage() {
     dispatch(getProductsInCard());
   }, []);
   const accessToken = window.localStorage.getItem("accessToken");
-
+  const handleOnclickToOrder = () => {
+    navigate("/order");
+  };
   return (
     <>
       {accessToken && (
@@ -57,7 +60,7 @@ export default function ProductCardPage() {
                   <TableCell align="center">Price</TableCell>
                   <TableCell align="center">Quantity</TableCell>
                   <TableCell align="center">Total Price</TableCell>
-                  <TableCell align="center">Operation</TableCell>
+                  <TableCell align="center">Delete</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -121,11 +124,12 @@ export default function ProductCardPage() {
               </TableBody>
             </Table>
           </TableContainer>
-          <Link style={{ textDecoration: "none" }} to="/order">
-            <Stack mt={5} mb={5} sx={{ maxWidth: 100 }}>
-              <Button variant="contained">Order</Button>
-            </Stack>
-          </Link>
+
+          <Stack mt={5} mb={5} sx={{ maxWidth: 100 }}>
+            <Button onClick={handleOnclickToOrder} variant="contained">
+              Order
+            </Button>
+          </Stack>
         </Stack>
       )}
     </>

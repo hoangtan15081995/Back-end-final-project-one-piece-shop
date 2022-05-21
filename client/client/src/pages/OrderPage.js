@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -21,15 +21,25 @@ import {
 import { addNewOrder } from "../features/order/orderSlice";
 import { LoadingButton } from "@mui/lab";
 import {
+  deleteProductsInCard,
   getProductsInCard,
   setProductsInCard,
+  updateProductsInCard,
 } from "../features/card/cardSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { fCurrency } from "../utils/fcurrency";
+import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
+import RemoveIcon from "@mui/icons-material/Remove";
 
+const phoneRegExp = /([0]{1})([1-9]{1})([0-9]{8})/;
 const OrderUserSchema = yup.object().shape({
   address: yup.string().required("name is required"),
-  phone: yup.number().required("number is required"),
+  phone: yup
+    .string()
+    .matches(phoneRegExp, "Phone number is not valid")
+    .max(10)
+    .required("number is required"),
 });
 
 function OrderPage() {
@@ -67,6 +77,17 @@ function OrderPage() {
     navigate("/checkout");
   };
 
+  const handleOnclickIncre = (productId, condition) => {
+    dispatch(updateProductsInCard(productId, condition));
+  };
+  const handleOnclickDecre = (productId, condition) => {
+    dispatch(updateProductsInCard(productId, condition));
+  };
+  const handleOnclickDel = (productId) => {
+    console.log("test", productId);
+    dispatch(deleteProductsInCard(productId));
+  };
+
   return (
     <>
       <Stack display="flex" mt={15} justifyContent="center" alignItems="center">
@@ -79,6 +100,7 @@ function OrderPage() {
                 <TableCell align="center">Price</TableCell>
                 <TableCell align="center">Quantity</TableCell>
                 <TableCell align="center">Total Price</TableCell>
+                <TableCell align="center">Delete</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -94,9 +116,32 @@ function OrderPage() {
                     {" "}
                     {fCurrency(product.product.price)}
                   </TableCell>
-                  <TableCell align="center">{product.quantity}</TableCell>
+                  <TableCell align="center">
+                    <Button
+                      onClick={() =>
+                        handleOnclickDecre(product.product._id, "Des")
+                      }
+                    >
+                      <RemoveIcon />
+                    </Button>
+                    {product.quantity}
+                    <Button
+                      onClick={() =>
+                        handleOnclickIncre(product.product._id, "Ins")
+                      }
+                    >
+                      <AddIcon />
+                    </Button>
+                  </TableCell>
                   <TableCell align="center">
                     {fCurrency(product.product.price * product.quantity)}
+                  </TableCell>
+                  <TableCell align="center">
+                    <Button
+                      onClick={() => handleOnclickDel(product.product._id)}
+                    >
+                      <DeleteIcon />
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}
@@ -158,7 +203,6 @@ function OrderPage() {
               alignItems="center"
               sx={{ mt: 5, textAlign: "center", width: "100%" }}
             >
-              {/* <Link style={{ textDecoration: "none" }} to="/checkout"> */}
               <LoadingButton
                 type="submit"
                 variant="contained"
@@ -166,7 +210,6 @@ function OrderPage() {
               >
                 Submit
               </LoadingButton>
-              {/* </Link> */}
             </Stack>
           </FormProvider>
         </Box>
