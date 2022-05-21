@@ -4,8 +4,6 @@ import {
   getListOrders,
   updateOrders,
   deleteOrders,
-  getSingleOrder,
-  updateOrderById,
 } from "../features/order/orderSlice";
 import {
   Button,
@@ -22,12 +20,8 @@ import {
 import PaginationListOrder from "../components/PaginationListOrder";
 import Modal from "../components/Modal";
 import { fCurrency } from "../utils/fcurrency";
-import EditIcon from "@mui/icons-material/Edit";
-import { useNavigate } from "react-router-dom";
-import ModalUPdateOrder from "../components/ModalUpdateOrder";
 
 function OrdersListPage() {
-  const navigate = useNavigate();
   const accessToken = window.localStorage.getItem("accessToken");
   const dispatch = useDispatch();
   const { ordersList, pageListOrder } = useSelector((state) => state.order);
@@ -41,9 +35,7 @@ function OrdersListPage() {
   const handleOnclickCancel = (id) => {
     dispatch(deleteOrders(id, pageListOrder));
   };
-  const handleOnclickUpdateById = (id) => {
-    navigate(`/order/update/${id}`);
-  };
+
   return (
     <>
       {accessToken && (
@@ -68,7 +60,6 @@ function OrdersListPage() {
                   <TableCell align="center">Complete Order</TableCell>
                   <TableCell align="center">Cancel Order</TableCell>
                   <TableCell align="center">View Order</TableCell>
-                  <TableCell align="center">Update</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -84,7 +75,9 @@ function OrdersListPage() {
                     <TableCell align="center">
                       {fCurrency(order.totalPrice)}
                     </TableCell>
-                    <TableCell align="center">{order.createdAt}</TableCell>
+                    <TableCell align="center">
+                      {new Date(order.createdAt).toString()}
+                    </TableCell>
                     <TableCell align="center">{order.status}</TableCell>
                     <TableCell align="center">
                       <Button
@@ -104,9 +97,6 @@ function OrdersListPage() {
                     </TableCell>
                     <TableCell align="center">
                       <Modal productCard={order.products} />
-                    </TableCell>
-                    <TableCell align="center">
-                      <ModalUPdateOrder order={order} />
                     </TableCell>
                   </TableRow>
                 ))}

@@ -1,13 +1,12 @@
 import * as React from "react";
-import { useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { Box, Button, CardActionArea, CardActions, Stack } from "@mui/material";
+import { CardActionArea, CardActions, Stack } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { getProductsById } from "../features/product/productSlice";
-import { Link as RouterLink, NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AddToCard from "./AddToCard";
 import "./styleCard.css";
 import { fCurrency } from "../utils/fcurrency";

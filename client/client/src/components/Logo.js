@@ -1,7 +1,6 @@
-import { Link as RouterLink } from "react-router-dom";
-import { Box, Button, Stack } from "@mui/material";
+import { Box } from "@mui/material";
 import logoImg from "../logo.png";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   getProducts,
   getPagePagination,
@@ -17,7 +16,13 @@ function Logo({ disabledLink = false, sx }) {
     navigate("/");
   };
   const logo = (
-    <Box sx={{ width: 60, height: 60, ...sx }}>
+    <Box
+      sx={{
+        width: { xs: 30, sm: 40, md: 60 },
+        height: { xs: 30, sm: 40, md: 60 },
+        ...sx,
+      }}
+    >
       <img src={logoImg} alt="logo" width="100%" />
     </Box>
   );

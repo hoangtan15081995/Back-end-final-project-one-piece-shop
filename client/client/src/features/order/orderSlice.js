@@ -137,17 +137,8 @@ export const updateOrderById =
         products,
       });
       console.log("orderById", response);
-      // const res = await apiService.get(`/orders/list?page=${pageListOrder}`);
-      // toast.success("Order Completed!");
-      // dispatch(
-      //   slice.actions.getListOrdersSuccess({
-      //     ordersList: res.data.data.listOrder,
-      //     totalPagesListOrder: res.data.data.totalPagesListOrder,
-      //   })
-      // );
     } catch (error) {
       console.log(error);
-      // toast.error("Completed error");
     }
   };
 
@@ -159,21 +150,11 @@ export const updateProductInOrderById =
         condition,
         productId,
       });
-      // console.log("orderafterupdateproduct", response);
+      console.log("orderafterupdateproduct", response);
       const res = await apiService.get(`/orders/list/${orderId}`);
       console.log("single order", res);
-
-      // const res = await apiService.get(`/orders/list?page=${pageListOrder}`);
-      // toast.success("Order Completed!");
-      // dispatch(
-      //   slice.actions.getListOrdersSuccess({
-      //     ordersList: res.data.data.listOrder,
-      //     totalPagesListOrder: res.data.data.totalPagesListOrder,
-      //   })
-      // );
     } catch (error) {
       console.log(error);
-      // toast.error("Completed error");
     }
   };
 
@@ -181,6 +162,7 @@ export const deleteOrders = (orderId, pageListOrder) => async (dispatch) => {
   dispatch(slice.actions.startLoading());
   try {
     const response = await apiService.put(`/orders/${orderId}`);
+    console.log(response);
     const res = await apiService.get(`/orders/list?page=${pageListOrder}`);
     toast.success("Order Completed!");
     dispatch(

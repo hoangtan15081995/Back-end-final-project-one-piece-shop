@@ -6,27 +6,22 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FormProvider, FTextField } from "../components/form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import useAuth from "../hooks/useAuth";
+
 import { useForm } from "react-hook-form";
-import {
-  updateUserProfile,
-  getCurrentUserProfile,
-  deleteAccount,
-} from "../features/user/userSlice";
+
 import { addNewOrder } from "../features/order/orderSlice";
 import { LoadingButton } from "@mui/lab";
 import {
   deleteProductsInCard,
   getProductsInCard,
-  setProductsInCard,
   updateProductsInCard,
 } from "../features/card/cardSlice";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { fCurrency } from "../utils/fcurrency";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -47,9 +42,9 @@ function OrderPage() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getProductsInCard());
-  }, []);
+  }, [dispatch]);
   const { productsInCard } = useSelector((state) => state.card);
-  const isLoading = useSelector((state) => state.user.isLoading);
+
   const defaultValues = {
     address: "",
     phone: "",
@@ -59,8 +54,6 @@ function OrderPage() {
     defaultValues,
   });
   const {
-    setValue,
-    reset,
     handleSubmit,
     formState: { isSubmitting },
   } = methods;

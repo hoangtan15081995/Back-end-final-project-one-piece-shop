@@ -3,11 +3,10 @@ import React, { useEffect } from "react";
 import FCard from "./Fcard";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../features/product/productSlice";
-import { Link as RouterLink } from "react-router-dom";
 
 function ProductList() {
   const dispatch = useDispatch();
-  const { products, page, productId } = useSelector((state) => state.product);
+  const { products, page } = useSelector((state) => state.product);
   console.log(products);
   useEffect(() => {
     dispatch(getProducts(page));

@@ -1,31 +1,24 @@
 import * as React from "react";
-import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import InputBase from "@mui/material/InputBase";
 import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import MailIcon from "@mui/icons-material/Mail";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import MoreIcon from "@mui/icons-material/MoreVert";
 import Logo from "../components/Logo";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import SearchForm from "../components/SearchForm";
 import SearchFormDemo from "../components/SearchFormDemo";
 import useAuth from "../hooks/useAuth";
 import { Link, useNavigate } from "react-router-dom";
-import { alertClasses, Avatar } from "@mui/material";
+import { Avatar } from "@mui/material";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { getProductsInCard } from "../features/card/cardSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { getProductsCatagory } from "../features/product/productSlice";
+import SelectCatagory from "../components/SelectCatagory";
 
 export default function PrimarySearchAppBar() {
   const accessToken = window.localStorage.getItem("accessToken");
@@ -33,7 +26,7 @@ export default function PrimarySearchAppBar() {
   const { productsInCard } = useSelector((state) => state.card);
   useEffect(() => {
     dispatch(getProductsInCard());
-  }, []);
+  }, [dispatch]);
   const auth = useAuth();
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -57,9 +50,6 @@ export default function PrimarySearchAppBar() {
     navigate("/change");
   };
 
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
   const handleLogOut = async () => {
     try {
       setAnchorEl(null);
@@ -71,12 +61,6 @@ export default function PrimarySearchAppBar() {
     } catch (error) {
       console.error(error);
     }
-  };
-
-  const Catagories = ["Clock", "T-shirt", "Poster", "Toymodel", "Coat"];
-  const handleOnclickCatagory = (catagory) => {
-    catagory = catagory.toLowerCase();
-    dispatch(getProductsCatagory(catagory));
   };
 
   const handleLogin = async () => {
@@ -130,6 +114,26 @@ export default function PrimarySearchAppBar() {
     >
       {accessToken ? (
         <div>
+          <Link
+            style={{ textDecoration: "none", color: "black" }}
+            to="/productcard"
+          >
+            <MenuItem>
+              <IconButton
+                size="large"
+                aria-label="show 17 new notifications"
+                color="inherit"
+              >
+                <Badge
+                  badgeContent={accessToken ? productsInCard.length : 0}
+                  color="error"
+                >
+                  <ShoppingCartIcon />
+                </Badge>
+              </IconButton>
+              <p>Cart</p>
+            </MenuItem>
+          </Link>
           <MenuItem onClick={handleProfile}>Profile</MenuItem>
           <MenuItem onClick={handleMenuClose}>Change Password</MenuItem>
           <MenuItem onClick={handleOrder}>Order</MenuItem>
@@ -209,42 +213,27 @@ export default function PrimarySearchAppBar() {
             edge="start"
             color="inherit"
             aria-label="open drawer"
-            sx={{ mr: 2, ml: 2 }}
+            sx={{ mr: { xs: 0, md: 2 } }}
           >
             <Logo />
           </IconButton>
           <Typography
-            variant="h5"
+            // variant="h6"
             noWrap
             component="div"
-            sx={{ display: { xs: "none", sm: "block" } }}
+            sx={{
+              display: { xs: "none", sm: "block" },
+              color: { xs: "#ee4d2d", sm: "#ee4d2d", md: "white" },
+              fontSize: { xs: 0, sm: 0, md: 19 },
+            }}
           >
             ONE PIECE
           </Typography>
           <SearchFormDemo />
 
-          {Catagories.map((catagory) => {
-            return (
-              <Link
-                key={catagory}
-                style={{ textDecoration: "none", color: "white" }}
-                to={`catagoryPage/${catagory}`}
-                onClick={() => handleOnclickCatagory(catagory)}
-              >
-                <Typography
-                  variant="h5"
-                  noWrap
-                  component="div"
-                  sx={{ display: { xs: "none", sm: "block" }, mr: 5, ml: 4 }}
-                >
-                  {catagory}
-                </Typography>
-              </Link>
-            );
-          })}
-
+          <SelectCatagory />
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+          <Box sx={{ display: { xs: "flex", sm: "flex" } }}>
             <IconButton
               size="large"
               aria-label="show 17 new notifications"
@@ -275,18 +264,6 @@ export default function PrimarySearchAppBar() {
               color="inherit"
             >
               <Avatar src={user.avatarURL} />
-            </IconButton>
-          </Box>
-          <Box sx={{ display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
             </IconButton>
           </Box>
         </Toolbar>

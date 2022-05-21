@@ -1,16 +1,12 @@
 import { Box, Stack, Typography, Container, Avatar } from "@mui/material";
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useDispatch } from "react-redux";
 import { FormProvider, FTextField } from "../components/form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import useAuth from "../hooks/useAuth";
 import { useForm } from "react-hook-form";
-import {
-  updateUserProfile,
-  getCurrentUserProfile,
-  deleteAccount,
-} from "../features/user/userSlice";
+import { updateUserProfile } from "../features/user/userSlice";
 import { useEffect } from "react";
 import { LoadingButton } from "@mui/lab";
 import ModalDeleteAccount from "../components/ModalDeleteAccount";
@@ -22,7 +18,7 @@ const UpdateUserSchema = yup.object().shape({
 
 function ProfilePage() {
   const { user } = useAuth();
-  const isLoading = useSelector((state) => state.user.isLoading);
+
   const defaultValues = {
     name: user?.name || "",
     email: user?.email || "",
@@ -32,7 +28,6 @@ function ProfilePage() {
     defaultValues,
   });
   const {
-    setValue,
     reset,
     handleSubmit,
     formState: { isSubmitting },
@@ -40,16 +35,14 @@ function ProfilePage() {
 
   useEffect(() => {
     reset(user);
-  }, [user]);
+  }, [reset, user]);
   const dispatch = useDispatch();
 
   const onSubmit = (data) => {
     console.log("dada", data);
     dispatch(updateUserProfile({ name: data.name, email: data.email }));
   };
-  const handleOnclick = () => {
-    dispatch(deleteAccount());
-  };
+
   return (
     <>
       <Container

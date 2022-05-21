@@ -46,8 +46,8 @@ export default function BasicModal({ productCard }) {
             <Typography sx={{ fontSize: "1.2rem", mb: 3 }}>
               Your Order
             </Typography>
-            <TableContainer sx={{ maxWidth: 1000 }} component={Paper}>
-              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableContainer sx={{ maxWidth: 800 }} component={Paper}>
+              <Table sx={{ minWidth: 600 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>
                     <TableCell>Product</TableCell>

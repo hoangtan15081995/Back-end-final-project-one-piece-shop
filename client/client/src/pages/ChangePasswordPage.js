@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import {
-  Link,
   Stack,
-  Alert,
   IconButton,
   InputAdornment,
   Container,
@@ -13,10 +11,8 @@ import { LoadingButton } from "@mui/lab";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
-import { useNavigate, Link as RouterLink } from "react-router-dom";
-
 import { FormProvider, FTextField } from "../components/form";
-import useAuth from "../hooks/useAuth";
+
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
@@ -37,8 +33,7 @@ const defaultValues = {
 
 function ChangePasswordPage() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const auth = useAuth();
+
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirmation, setShowPasswordConfirmation] =
     useState(false);
@@ -49,9 +44,8 @@ function ChangePasswordPage() {
   });
   const {
     handleSubmit,
-    reset,
-    setError,
-    formState: { errors, isSubmitting },
+
+    formState: { isSubmitting },
   } = methods;
 
   const onSubmit = async (data) => {
