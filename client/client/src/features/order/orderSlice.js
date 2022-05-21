@@ -61,9 +61,9 @@ export const addNewOrder =
         phone,
         totalPrice,
       });
-      // const res = await apiService.get("orders/list");
+
       console.log("response order", response);
-      // console.log("res", res);
+
       toast.success("Order success");
       dispatch(
         slice.actions.addNewOrderSuccess({

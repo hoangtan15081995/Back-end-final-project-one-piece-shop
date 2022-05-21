@@ -9,7 +9,6 @@ const userSchema = Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true, select: false },
     isDeleted: { type: Boolean, default: false, select: false },
-    avatarURL: { type: String, require: false },
   },
   {
     timestamps: true, //CreatedAt & UpdatedAt

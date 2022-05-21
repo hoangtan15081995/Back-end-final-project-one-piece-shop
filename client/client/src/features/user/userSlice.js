@@ -1,7 +1,6 @@
 import apiService from "../../app/apiService";
 import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-// import { cloudinaryUpload } from "../../utils/cloudinary";
 
 const initialState = {
   isLoading: false,
@@ -78,8 +77,6 @@ export const updatePassword =
     dispatch(slice.actions.startLoading());
     try {
       console.log("inputdata", newPassword, confirmPassword);
-      // const accessToken = window.localStorage.getItem("accessToken");
-      // apiService.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
       const response = await apiService.put("/users/me/updatepassword", {
         newPassword,
         confirmPassword,
@@ -95,8 +92,6 @@ export const updatePassword =
 export const deleteAccount = () => async (dispatch) => {
   dispatch(slice.actions.startLoading());
   try {
-    // const accessToken = window.localStorage.getItem("accessToken");
-    // apiService.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
     const response = await apiService.delete("/users/me/deactivate");
     dispatch(slice.actions.deleteAccountSuccess(response.data.success));
     window.localStorage.removeItem("accessToken");

@@ -263,7 +263,14 @@ export default function PrimarySearchAppBar() {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <Avatar src={user.avatarURL} />
+              <Avatar
+                src={
+                  accessToken
+                    ? user.avatarURL ||
+                      "https://giaydabongtot.com/wp-content/uploads/2020/10/Hinh-nen-ronaldo-cr7-may-tinh-laptop-3-scaled.jpg"
+                    : ""
+                }
+              />
             </IconButton>
           </Box>
         </Toolbar>

@@ -56,9 +56,6 @@ cartController.getListProductsCart = catchAsync(async (req, res, next) => {
     .populate("owner")
     .populate({ path: "products", populate: "product" });
   console.log(currentCart);
-  // if (!currentCart) {
-  //   throw new AppError(404, "productCart not found", "get list product error");
-  // }
 
   return sendResponse(
     res,

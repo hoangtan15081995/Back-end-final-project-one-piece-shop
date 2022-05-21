@@ -101,15 +101,6 @@ function ChangePasswordPage() {
                 ),
               }}
             />
-            {/* </Box>
-          <Box
-            sx={{
-              width: 600,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          > */}
             <FTextField
               name="passwordConfirmation"
               label="Password Confirmation"
@@ -133,15 +124,6 @@ function ChangePasswordPage() {
                 ),
               }}
             />
-            {/* </Box>
-          <Box
-            sx={{
-              width: 600,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          > */}
             <LoadingButton
               sx={{ width: 300 }}
               size="large"

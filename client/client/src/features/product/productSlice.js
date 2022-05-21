@@ -95,21 +95,6 @@ export const getProducts = (page) => async (dispatch) => {
   }
 };
 
-// export const updateQuantityProduct = (id) => async (dispatch) => {
-//   dispatch(slice.actions.startLoading());
-//   try {
-//     const response = await apiService.get(`/products/listall/${id}`);
-//     dispatch(
-//       slice.actions.updateQuantityProductSuccess({
-//         products: response.data.data.products,
-//       })
-//     );
-//   } catch (error) {
-//     dispatch(slice.actions.hasError(error.message));
-//     toast.error(error.message);
-//   }
-// };
-
 export const getPagePagination = (page) => async (dispatch) => {
   dispatch(slice.actions.startLoading());
   try {
@@ -142,7 +127,6 @@ export const getProductsByName = (searchquery) => async (dispatch) => {
   dispatch(slice.actions.startLoading());
   try {
     console.log(searchquery);
-    // searchquery = searchquery.toLowerCase();
     const response = await apiService.post("/products/find", { searchquery });
     console.log(response.data.data.product);
     // toast.success("Find product success");

@@ -17,23 +17,12 @@
 ### Managing Order (OrderFlow)
 
 - Owner can create a order with products (Create) ✅
-- Owner can see list orders created (Read) ✅
 - Owner can see history order
-- Owner can update orders (Update)✅
 - Owner can cancel order created (Delete)✅
 
 ### Managing products (productFlow)
 
 - User can see list products ✅
 - User can find products by name ✅
-- User can filter products by collections and sort products by price, newest, oldest in collections ✅
+- User can filter products by catagories ✅
 - User can see information of a products by id ✅
-
-### CRUD comment and reaction for product (InteractionFlow)
-
-- Authentication user can create a comment( post a comment) to a product.
-- Authentication user can see list comment in a product.
-- Author of comment can update this comment.
-- Author of comment can delete this comment.
-- Authentication user can make a reaction to a product.
-- Authentication user can make a reaction to a comment.

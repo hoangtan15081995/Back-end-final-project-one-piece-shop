@@ -18,7 +18,7 @@ const UpdateUserSchema = yup.object().shape({
 
 function ProfilePage() {
   const { user } = useAuth();
-
+  const accessToken = window.localStorage.getItem("accessToken");
   const defaultValues = {
     name: user?.name || "",
     email: user?.email || "",
@@ -64,7 +64,12 @@ function ProfilePage() {
           <Typography sx={{ fontSize: "1.5rem" }}>Your Profile</Typography>
           <Avatar
             sx={{ width: 100, height: 100, mt: 5 }}
-            src={user.avatarURL}
+            src={
+              accessToken
+                ? user.avatarURL ||
+                  "https://giaydabongtot.com/wp-content/uploads/2020/10/Hinh-nen-ronaldo-cr7-may-tinh-laptop-3-scaled.jpg"
+                : ""
+            }
           />
           <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
             <Box
@@ -107,14 +112,6 @@ function ProfilePage() {
               </LoadingButton>
             </Stack>
           </FormProvider>
-          {/* <LoadingButton
-            sx={{ mt: 5 }}
-            variant="contained"
-            loading={isSubmitting}
-            onClick={handleOnclick}
-          >
-            Delete Account
-          </LoadingButton> */}
           <ModalDeleteAccount />
         </Box>
       </Container>

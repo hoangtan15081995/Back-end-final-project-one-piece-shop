@@ -2,7 +2,6 @@ import { Button } from "@mui/material";
 import React from "react";
 import AuthRequire from "../routes/AuthRequire";
 import { useLocation, useNavigate } from "react-router-dom";
-
 import { useDispatch } from "react-redux";
 import { addProductsToCard } from "../features/card/cardSlice";
 
