@@ -19,10 +19,10 @@ const slice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
-    getProductsInCardSuccess(state, action) {
-      state.isLoading = false;
-      state.hasError = null;
-    },
+    // getProductsInCardSuccess(state, action) {
+    //   state.isLoading = false;
+    //   state.hasError = null;
+    // },
     addProductsToCardSuccess(state, action) {
       state.isLoading = false;
       state.hasError = null;
@@ -111,13 +111,17 @@ export const getProductsInCard = () => async (dispatch) => {
   try {
     const accessToken = window.localStorage.getItem("accessToken");
     apiService.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-    const response = await apiService.get("/cards/list");
-    console.log("fin", response);
-    dispatch(
-      slice.actions.getProductsInCardSuccess({
-        productsInCard: response.data.data.currentCart.products,
-      })
-    );
+    if (accessToken) {
+      const response = await apiService.get("/cards/list");
+      console.log("fin", response);
+      dispatch(
+        slice.actions.getProductsInCardSuccess({
+          productsInCard: response.data.data.currentCart.products,
+        })
+      );
+    } else {
+      console.log("getproductcart failed");
+    }
   } catch (error) {
     dispatch(slice.actions.hasError(error.message));
   }

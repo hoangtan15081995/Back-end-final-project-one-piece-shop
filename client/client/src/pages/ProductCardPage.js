@@ -38,7 +38,7 @@ export default function ProductCardPage() {
   console.log("map", productsInCard);
   useEffect(() => {
     dispatch(getProductsInCard());
-  }, []);
+  }, [dispatch]);
   const accessToken = window.localStorage.getItem("accessToken");
   const handleOnclickToOrder = () => {
     navigate("/order");

@@ -240,6 +240,7 @@ export default function PrimarySearchAppBar() {
               color="inherit"
             >
               <Link
+                disabled={accessToken ? false : true}
                 style={{
                   textDecoration: "none",
                   color: "white",
