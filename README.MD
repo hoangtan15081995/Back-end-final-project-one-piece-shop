@@ -30,3 +30,45 @@
 - User can see information of a products by id ✅
 
 # Project setup
+
+1. Generate express boiler plate
+
+```js
+npx express-generator --no-view
+npm install
+touch .gitignore .env
+```
+
+2. Install project dependencies
+
+```js
+npm i nodemon cors bcryptjs dotenv
+npm i jsonwebtoken mongoose
+```
+
+3. Add dev script
+
+```js
+{
+    "scripts":{
+        ...
+        "dev":"nodemon ./bin/www"
+    }
+}
+```
+
+4. Environment variable config (JSK, MURI) In .env
+
+```js
+JWT_SECRET_KEY=someKey
+MONGO_DEV_URI=mongodb://localhost:27017/
+MONGO_PRO_URI=mongodb_srv://atlas.com/
+```
+
+In .gitignore
+
+```js
+node_modules.env;
+```
+
+### The End
