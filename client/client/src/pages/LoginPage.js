@@ -68,7 +68,7 @@ function LoginPage() {
     if (accessToken) {
       navigate("/");
     }
-  }, []);
+  }, [accessToken, navigate]);
 
   return (
     <Container maxWidth="xs">

@@ -126,6 +126,96 @@ productController.getUpdateQuantityProduct = catchAsync(
   }
 );
 
+productController.getUpdateQuantityProductInSearch = catchAsync(
+  async (req, res, next) => {
+    const { currentUserId } = req;
+    const { id } = req.params;
+    const product = await Product.findById(id);
+    let productCart = await Cart.findOne({ owner: currentUserId });
+
+    console.log(product);
+    if (!product) {
+      throw new AppError(404, "Product not found", "Get single product error");
+    }
+    if (productCart.products.some((item) => item.product == id)) {
+      product.totalProducts = product.totalProducts;
+    } else if (product.totalProducts > 0) {
+      product.totalProducts -= 1;
+    } else {
+      product.totalProducts = 0;
+    }
+    product.save();
+    return sendResponse(
+      res,
+      200,
+      true,
+      { product },
+      null,
+      "update totalProduct successful"
+    );
+  }
+);
+
+productController.getUpdateQuantityProductInCatagory = catchAsync(
+  async (req, res, next) => {
+    const { currentUserId } = req;
+    const { id } = req.params;
+    const product = await Product.findById(id);
+    let productCart = await Cart.findOne({ owner: currentUserId });
+
+    console.log(product);
+    if (!product) {
+      throw new AppError(404, "Product not found", "Get single product error");
+    }
+    if (productCart.products.some((item) => item.product == id)) {
+      product.totalProducts = product.totalProducts;
+    } else if (product.totalProducts > 0) {
+      product.totalProducts -= 1;
+    } else {
+      product.totalProducts = 0;
+    }
+    product.save();
+    return sendResponse(
+      res,
+      200,
+      true,
+      { product },
+      null,
+      "update totalProduct successful"
+    );
+  }
+);
+
+productController.getUpdateQuantityProductDetail = catchAsync(
+  async (req, res, next) => {
+    const { currentUserId } = req;
+    const { id } = req.params;
+    const product = await Product.findById(id);
+    let productCart = await Cart.findOne({ owner: currentUserId });
+
+    console.log(product);
+    if (!product) {
+      throw new AppError(404, "Product not found", "Get single product error");
+    }
+    if (productCart.products.some((item) => item.product == id)) {
+      product.totalProducts = product.totalProducts;
+    } else if (product.totalProducts > 0) {
+      product.totalProducts -= 1;
+    } else {
+      product.totalProducts = 0;
+    }
+    product.save();
+    return sendResponse(
+      res,
+      200,
+      true,
+      { product },
+      null,
+      "update totalProduct successful"
+    );
+  }
+);
+
 productController.getUpdateQuantityProductinCart = catchAsync(
   async (req, res, next) => {
     const { currentUserId } = req;

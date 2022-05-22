@@ -20,6 +20,7 @@ import {
 import PaginationListOrder from "../components/PaginationListOrder";
 import Modal from "../components/Modal";
 import { fCurrency } from "../utils/fcurrency";
+import { fDateTimeSuffix } from "../utils/formatTime";
 
 function OrdersListPage() {
   const accessToken = window.localStorage.getItem("accessToken");
@@ -55,7 +56,9 @@ function OrdersListPage() {
                   <TableCell sx={{ width: 50 }}>ID</TableCell>
                   <TableCell align="center">Code Order</TableCell>
                   <TableCell align="center"> Total Price</TableCell>
-                  <TableCell align="center">Time Order</TableCell>
+                  <TableCell sx={{ width: 250 }} align="center">
+                    Time Order
+                  </TableCell>
                   <TableCell align="center">Status</TableCell>
                   <TableCell align="center">Complete Order</TableCell>
                   <TableCell align="center">Cancel Order</TableCell>
@@ -76,7 +79,8 @@ function OrdersListPage() {
                       {fCurrency(order.totalPrice)}
                     </TableCell>
                     <TableCell align="center">
-                      {new Date(order.createdAt).toString()}
+                      {fDateTimeSuffix(order.createdAt)}
+                      {/* {new Date(order.createdAt).toString()} */}
                     </TableCell>
                     <TableCell align="center">{order.status}</TableCell>
                     <TableCell align="center">

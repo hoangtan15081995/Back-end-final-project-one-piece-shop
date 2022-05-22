@@ -14,7 +14,7 @@ function ProductsCatagory() {
   console.log("array", productsCatagory);
   useEffect(() => {
     dispatch(getProductsCatagory(catagory));
-  }, []);
+  }, [dispatch, catagory]);
   return (
     <Grid container spacing={2} mt={8}>
       {productsCatagory.map((product) => (
@@ -26,7 +26,7 @@ function ProductsCatagory() {
           md={4}
           lg={3}
         >
-          <FCardCatagory product={product} />
+          <FCardCatagory product={product} catagory={catagory} />
         </Grid>
       ))}
     </Grid>

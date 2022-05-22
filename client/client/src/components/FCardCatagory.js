@@ -7,11 +7,11 @@ import { CardActionArea, CardActions, Stack } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { getProductsById } from "../features/product/productSlice";
 import { useNavigate } from "react-router-dom";
-import AddToCard from "./AddToCard";
 import "./styleCard.css";
 import { fCurrency } from "../utils/fcurrency";
+import AddToCardCatagory from "./AddToCardCatagory";
 
-export default function FCardCatagory({ product }) {
+export default function FCardCatagory({ product, catagory }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { _id } = product;
@@ -52,7 +52,7 @@ export default function FCardCatagory({ product }) {
       </CardActionArea>
 
       <CardActions>
-        <AddToCard id={_id} />
+        <AddToCardCatagory id={_id} product={product} catagory={catagory} />
       </CardActions>
     </Card>
   );

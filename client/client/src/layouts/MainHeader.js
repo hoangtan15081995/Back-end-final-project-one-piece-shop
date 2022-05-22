@@ -21,6 +21,7 @@ import { useSelector, useDispatch } from "react-redux";
 import SelectCatagory from "../components/SelectCatagory";
 
 export default function PrimarySearchAppBar() {
+  const { profile } = useSelector((state) => state.user);
   const accessToken = window.localStorage.getItem("accessToken");
   const dispatch = useDispatch();
   const { productsInCard } = useSelector((state) => state.card);
@@ -240,7 +241,6 @@ export default function PrimarySearchAppBar() {
               color="inherit"
             >
               <Link
-                disabled={accessToken ? false : true}
                 style={{
                   textDecoration: "none",
                   color: "white",
@@ -265,12 +265,7 @@ export default function PrimarySearchAppBar() {
               color="inherit"
             >
               <Avatar
-                src={
-                  accessToken
-                    ? user.avatarURL ||
-                      "https://giaydabongtot.com/wp-content/uploads/2020/10/Hinh-nen-ronaldo-cr7-may-tinh-laptop-3-scaled.jpg"
-                    : ""
-                }
+                src={accessToken ? profile.avatarURL || user.avatarURL : ""}
               />
             </IconButton>
           </Box>

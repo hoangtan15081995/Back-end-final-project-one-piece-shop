@@ -8,6 +8,7 @@ const userSchema = Schema(
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true, select: false },
+    avatarURL: { type: String, required: false },
     isDeleted: { type: Boolean, default: false, select: false },
   },
   {

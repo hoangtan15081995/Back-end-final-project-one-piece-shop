@@ -16,7 +16,7 @@ import {
   updateProductsInCard,
   deleteProductsInCard,
 } from "../features/card/cardSlice";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { getProductsInCard } from "../features/card/cardSlice";
 import { fCurrency } from "../utils/fcurrency";

@@ -100,6 +100,7 @@ export const getUpdateQuantityProduct =
     dispatch(slice.actions.startLoading());
     try {
       const res = await apiService.put(`/products/update/${productId}`);
+      console.log(res);
       const response = await apiService.get(`/products/list?page=${page}`);
       dispatch(
         slice.actions.getProductsSuccess({
@@ -114,6 +115,66 @@ export const getUpdateQuantityProduct =
   };
 ///
 
+export const getUpdateQuantityProductInSearch =
+  (productId, searchquery) => async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      console.log("searchQuery", searchquery);
+      const res = await apiService.put(`/products/update/search/${productId}`);
+      console.log(res);
+      const response = await apiService.post("/products/find", { searchquery });
+      dispatch(
+        slice.actions.getProductsByNameSuccess({
+          productsByName: response.data.data.product,
+          totalPagesSearch: response.data.data.totalPagesSearch,
+        })
+      );
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.message));
+      toast.error(error.message);
+    }
+  };
+
+export const getUpdateQuantityProductInCatagory =
+  (productId, catagory) => async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const res = await apiService.put(`/products/update/search/${productId}`);
+      console.log(res);
+      const response = await apiService.post("/products/catagory", {
+        catagory,
+      });
+      dispatch(
+        slice.actions.getProductsCatagorySuccess({
+          productsCatagory: response.data.data.products,
+          totalPagesCatagory: response.data.data.totalPagesCatagory,
+        })
+      );
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.message));
+      toast.error(error.message);
+    }
+  };
+
+export const getUpdateQuantityProductDetail =
+  (productId) => async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const res = await apiService.put(`/products/update/detail/${productId}`);
+      console.log(res);
+      const response = await apiService.get(`/products/${productId}`);
+      console.log(response);
+      dispatch(
+        slice.actions.getProductsByIdSuccess({
+          productById: response.data.data.product,
+        })
+      );
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.message));
+      toast.error(error.message);
+    }
+  };
+
 export const getUpdateQuantityProductInCart =
   (productId, condition, page) => async (dispatch) => {
     dispatch(slice.actions.startLoading());
@@ -121,6 +182,7 @@ export const getUpdateQuantityProductInCart =
       const res = await apiService.put(`/products/updateincart/${productId}`, {
         condition,
       });
+      console.log(res);
       const response = await apiService.get(`/products/list?page=${page}`);
       dispatch(
         slice.actions.getProductsSuccess({
@@ -144,6 +206,7 @@ export const getUpdateQuantityProductinCartDelete =
           quantity,
         }
       );
+      console.log(res);
       const response = await apiService.get(`/products/list?page=${page}`);
       dispatch(
         slice.actions.getProductsSuccess({

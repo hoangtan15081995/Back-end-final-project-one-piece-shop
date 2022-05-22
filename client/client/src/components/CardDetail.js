@@ -5,11 +5,11 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea, CardActions, Container, Stack } from "@mui/material";
-import AddToCard from "./AddToCard";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductsById } from "../features/product/productSlice";
 import { fCurrency } from "../utils/fcurrency";
+import AddToCardDetail from "./AddToCardDetail";
 
 export default function CardDetail() {
   const dispatch = useDispatch();
@@ -62,7 +62,7 @@ export default function CardDetail() {
           </CardContent>
         </CardActionArea>
         <CardActions sx={{ justifyContent: "center" }}>
-          <AddToCard id={productId} />
+          <AddToCardDetail id={productId} product={productById} />
         </CardActions>
       </Card>
     </Container>

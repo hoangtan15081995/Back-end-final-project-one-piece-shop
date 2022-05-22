@@ -59,6 +59,7 @@ export const updateProductsInCard =
         productId,
         condition,
       });
+      console.log(response);
       const res = await apiService.get("/cards/list");
       dispatch(
         slice.actions.updateProductsInCardSuccess({

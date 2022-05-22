@@ -9,6 +9,9 @@ const {
   getUpdateQuantityProduct,
   getUpdateQuantityProductinCart,
   getUpdateQuantityProductinCartDelete,
+  getUpdateQuantityProductInSearch,
+  getUpdateQuantityProductInCatagory,
+  getUpdateQuantityProductDetail,
 } = require("../controllers/product.controller");
 const { loginRequired } = require("../middlewares/authentication");
 const router = express.Router();
@@ -39,6 +42,27 @@ router.put(
   loginRequired,
   validate([header("authorization").exists().isString()]),
   getUpdateQuantityProduct
+);
+
+router.put(
+  "/update/search/:id",
+  loginRequired,
+  validate([header("authorization").exists().isString()]),
+  getUpdateQuantityProductInSearch
+);
+
+router.put(
+  "/update/catagory/:id",
+  loginRequired,
+  validate([header("authorization").exists().isString()]),
+  getUpdateQuantityProductInCatagory
+);
+
+router.put(
+  "/update/detail/:id",
+  loginRequired,
+  validate([header("authorization").exists().isString()]),
+  getUpdateQuantityProductDetail
 );
 
 router.put(

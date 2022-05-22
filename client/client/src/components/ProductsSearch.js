@@ -10,10 +10,10 @@ function ProductsSearch() {
   let params = useParams();
   let searchQuery = params.query;
   const { productsByName } = useSelector((state) => state.product);
-  console.log("1", productsByName);
+  // console.log("1", productsByName);
   useEffect(() => {
     dispatch(getProductsByName(searchQuery));
-  }, []);
+  }, [dispatch, searchQuery]);
   return (
     <Grid container spacing={2} mt={8}>
       {productsByName.map((product) => (
@@ -25,7 +25,7 @@ function ProductsSearch() {
           md={4}
           lg={3}
         >
-          <FCardSearch product={product} />
+          <FCardSearch product={product} searchQuery={searchQuery} />
         </Grid>
       ))}
     </Grid>

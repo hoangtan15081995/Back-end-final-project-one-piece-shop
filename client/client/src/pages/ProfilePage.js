@@ -1,6 +1,6 @@
 import { Box, Stack, Typography, Container, Avatar } from "@mui/material";
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { FormProvider, FTextField } from "../components/form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -17,9 +17,12 @@ const UpdateUserSchema = yup.object().shape({
 });
 
 function ProfilePage() {
+  const { profile } = useSelector((state) => state.user);
+  console.log(profile);
   const { user } = useAuth();
   const accessToken = window.localStorage.getItem("accessToken");
   const defaultValues = {
+    avatarURL: user?.avatarURL || "",
     name: user?.name || "",
     email: user?.email || "",
   };
@@ -30,6 +33,7 @@ function ProfilePage() {
   const {
     reset,
     handleSubmit,
+    setValue,
     formState: { isSubmitting },
   } = methods;
 
@@ -40,7 +44,21 @@ function ProfilePage() {
 
   const onSubmit = (data) => {
     console.log("dada", data);
-    dispatch(updateUserProfile({ name: data.name, email: data.email }));
+    dispatch(
+      updateUserProfile({
+        name: data.name,
+        email: data.email,
+        image: data.image,
+      })
+    );
+  };
+
+  const inputFile = useRef();
+  const handleChange = (e) => {
+    const file = inputFile.current.files[0];
+    if (file) {
+      setValue("image", file);
+    }
   };
 
   return (
@@ -64,14 +82,25 @@ function ProfilePage() {
           <Typography sx={{ fontSize: "1.5rem" }}>Your Profile</Typography>
           <Avatar
             sx={{ width: 100, height: 100, mt: 5 }}
-            src={
-              accessToken
-                ? user.avatarURL ||
-                  "https://giaydabongtot.com/wp-content/uploads/2020/10/Hinh-nen-ronaldo-cr7-may-tinh-laptop-3-scaled.jpg"
-                : ""
-            }
+            src={accessToken ? profile.avatarURL || user.avatarURL : ""}
           />
           <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+            <Box
+              sx={{
+                mt: 2,
+                ml: 15,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <input
+                type="file"
+                name="myImage"
+                ref={inputFile}
+                onChange={handleChange}
+              />
+            </Box>
             <Box
               sx={{
                 width: 500,
