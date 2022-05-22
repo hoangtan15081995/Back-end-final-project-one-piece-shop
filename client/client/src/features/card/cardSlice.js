@@ -87,25 +87,30 @@ export const deleteProductsInCard = (productId) => async (dispatch) => {
   }
 };
 
-export const addProductsToCard = (productId) => async (dispatch) => {
-  dispatch(slice.actions.startLoading);
-  try {
-    console.log("productidsearch", productId);
-    const response = await apiService.post("/cards/add", { productId });
-    const res = await apiService.get("cards/list");
-    console.log("resca", res.data.data.currentCart.products);
-    toast.success("Add Product Success!");
-    dispatch(
-      slice.actions.addProductsToCardSuccess({
-        productsInCard: res.data.data.currentCart.products,
-      })
-    );
-    console.log("productscard", response.data.data.products);
-  } catch (error) {
-    console.log(error);
-    toast.error("Product already exists!");
-  }
-};
+export const addProductsToCard =
+  (productId, totalProducts) => async (dispatch) => {
+    dispatch(slice.actions.startLoading);
+    try {
+      console.log("productidsearch", productId);
+      if (totalProducts === 0) {
+        toast.error("Empty quantity product");
+      } else {
+        const response = await apiService.post("/cards/add", { productId });
+        const res = await apiService.get("cards/list");
+        console.log("resca", res.data.data.currentCart.products);
+        toast.success("Add Product Success!");
+        dispatch(
+          slice.actions.addProductsToCardSuccess({
+            productsInCard: res.data.data.currentCart.products,
+          })
+        );
+        console.log("productscard", response.data.data.products);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Product already exists!");
+    }
+  };
 export const getProductsInCard = () => async (dispatch) => {
   dispatch(slice.actions.startLoading());
   try {

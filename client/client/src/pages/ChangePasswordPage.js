@@ -72,7 +72,7 @@ function ChangePasswordPage() {
         <Stack spacing={3}>
           <Box
             sx={{
-              width: 500,
+              width: { sx: 250, md: 500 },
               height: 220,
               display: "flex",
               alignItems: "center",

@@ -15,7 +15,6 @@ cartController.addProductToCart = catchAsync(async (req, res, next) => {
   if (!product) {
     throw new AppError(404, "Product not found", "Add product error");
   }
-
   let productCart = await Cart.findOne({ owner: currentUserId });
   if (!productCart) {
     productCart = await Cart.create({
@@ -35,6 +34,7 @@ cartController.addProductToCart = catchAsync(async (req, res, next) => {
   }
 
   productCart.save();
+
   return sendResponse(
     res,
     200,

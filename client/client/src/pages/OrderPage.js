@@ -26,6 +26,10 @@ import { fCurrency } from "../utils/fcurrency";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveIcon from "@mui/icons-material/Remove";
+import {
+  getUpdateQuantityProductInCart,
+  getUpdateQuantityProductinCartDelete,
+} from "../features/product/productSlice";
 
 const phoneRegExp = /([0]{1})([1-9]{1})([0-9]{8})/;
 const OrderUserSchema = yup.object().shape({
@@ -40,6 +44,7 @@ const OrderUserSchema = yup.object().shape({
 function OrderPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { page } = useSelector((state) => state.product);
   useEffect(() => {
     dispatch(getProductsInCard());
   }, [dispatch]);
@@ -72,13 +77,18 @@ function OrderPage() {
 
   const handleOnclickIncre = (productId, condition) => {
     dispatch(updateProductsInCard(productId, condition));
+    dispatch(getUpdateQuantityProductInCart(productId, condition, page));
   };
   const handleOnclickDecre = (productId, condition) => {
     dispatch(updateProductsInCard(productId, condition));
+    dispatch(getUpdateQuantityProductInCart(productId, condition, page));
   };
-  const handleOnclickDel = (productId) => {
+  const handleOnclickDel = (productId, condition, quantity) => {
     console.log("test", productId);
     dispatch(deleteProductsInCard(productId));
+    dispatch(
+      getUpdateQuantityProductinCartDelete(productId, condition, quantity, page)
+    );
   };
 
   return (
@@ -92,6 +102,7 @@ function OrderPage() {
                 <TableCell>Product</TableCell>
                 <TableCell align="center">Price</TableCell>
                 <TableCell align="center">Quantity</TableCell>
+                <TableCell align="center">Total Products</TableCell>
                 <TableCell align="center">Total Price</TableCell>
                 <TableCell align="center">Delete</TableCell>
               </TableRow>
@@ -122,16 +133,28 @@ function OrderPage() {
                       onClick={() =>
                         handleOnclickIncre(product.product._id, "Ins")
                       }
+                      disabled={
+                        product.product.totalProducts === 0 ? true : false
+                      }
                     >
                       <AddIcon />
                     </Button>
+                  </TableCell>
+                  <TableCell align="center">
+                    {product.product.totalProducts}
                   </TableCell>
                   <TableCell align="center">
                     {fCurrency(product.product.price * product.quantity)}
                   </TableCell>
                   <TableCell align="center">
                     <Button
-                      onClick={() => handleOnclickDel(product.product._id)}
+                      onClick={() =>
+                        handleOnclickDel(
+                          product.product._id,
+                          "Del",
+                          product.quantity
+                        )
+                      }
                     >
                       <DeleteIcon />
                     </Button>

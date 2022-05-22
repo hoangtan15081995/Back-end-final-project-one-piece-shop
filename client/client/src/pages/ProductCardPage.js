@@ -6,7 +6,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Button, Stack } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
@@ -20,19 +20,29 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { getProductsInCard } from "../features/card/cardSlice";
 import { fCurrency } from "../utils/fcurrency";
+import {
+  getUpdateQuantityProductInCart,
+  getUpdateQuantityProductinCartDelete,
+} from "../features/product/productSlice";
 
 export default function ProductCardPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { page } = useSelector((state) => state.product);
   const handleOnclickIncre = (productId, condition) => {
     dispatch(updateProductsInCard(productId, condition));
+    dispatch(getUpdateQuantityProductInCart(productId, condition, page));
   };
   const handleOnclickDecre = (productId, condition) => {
     dispatch(updateProductsInCard(productId, condition));
+    dispatch(getUpdateQuantityProductInCart(productId, condition, page));
   };
-  const handleOnclickDel = (productId) => {
+  const handleOnclickDel = (productId, condition, quantity) => {
     console.log("test", productId);
     dispatch(deleteProductsInCard(productId));
+    dispatch(
+      getUpdateQuantityProductinCartDelete(productId, condition, quantity, page)
+    );
   };
   const { productsInCard } = useSelector((state) => state.card);
   console.log("map", productsInCard);
@@ -52,6 +62,9 @@ export default function ProductCardPage() {
           justifyContent="center"
           alignItems="center"
         >
+          <Typography sx={{ fontSize: "2rem", mt: 10, mb: 3 }}>
+            Pruducts In Cart
+          </Typography>
           <TableContainer sx={{ maxWidth: 1000 }} component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
@@ -59,6 +72,7 @@ export default function ProductCardPage() {
                   <TableCell>Product</TableCell>
                   <TableCell align="center">Price</TableCell>
                   <TableCell align="center">Quantity</TableCell>
+                  <TableCell align="center">Total Products</TableCell>
                   <TableCell align="center">Total Price</TableCell>
                   <TableCell align="center">Delete</TableCell>
                 </TableRow>
@@ -88,16 +102,28 @@ export default function ProductCardPage() {
                         onClick={() =>
                           handleOnclickIncre(product.product._id, "Ins")
                         }
+                        disabled={
+                          product.product.totalProducts === 0 ? true : false
+                        }
                       >
                         <AddIcon />
                       </Button>
+                    </TableCell>
+                    <TableCell align="center">
+                      {product.product.totalProducts}
                     </TableCell>
                     <TableCell align="center">
                       {fCurrency(product.product.price * product.quantity)}
                     </TableCell>
                     <TableCell align="center">
                       <Button
-                        onClick={() => handleOnclickDel(product.product._id)}
+                        onClick={() =>
+                          handleOnclickDel(
+                            product.product._id,
+                            "Del",
+                            product.quantity
+                          )
+                        }
                       >
                         <DeleteIcon />
                       </Button>

@@ -94,6 +94,68 @@ export const getProducts = (page) => async (dispatch) => {
     toast.error(error.message);
   }
 };
+///
+export const getUpdateQuantityProduct =
+  (productId, page) => async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const res = await apiService.put(`/products/update/${productId}`);
+      const response = await apiService.get(`/products/list?page=${page}`);
+      dispatch(
+        slice.actions.getProductsSuccess({
+          products: response.data.data.products,
+          totalPages: response.data.data.totalPages,
+        })
+      );
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.message));
+      toast.error(error.message);
+    }
+  };
+///
+
+export const getUpdateQuantityProductInCart =
+  (productId, condition, page) => async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const res = await apiService.put(`/products/updateincart/${productId}`, {
+        condition,
+      });
+      const response = await apiService.get(`/products/list?page=${page}`);
+      dispatch(
+        slice.actions.getProductsSuccess({
+          products: response.data.data.products,
+          totalPages: response.data.data.totalPages,
+        })
+      );
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.message));
+      toast.error(error.message);
+    }
+  };
+export const getUpdateQuantityProductinCartDelete =
+  (productId, condition, quantity, page) => async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const res = await apiService.put(
+        `/products/updateincart/delete/${productId}`,
+        {
+          condition,
+          quantity,
+        }
+      );
+      const response = await apiService.get(`/products/list?page=${page}`);
+      dispatch(
+        slice.actions.getProductsSuccess({
+          products: response.data.data.products,
+          totalPages: response.data.data.totalPages,
+        })
+      );
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.message));
+      toast.error(error.message);
+    }
+  };
 
 export const getPagePagination = (page) => async (dispatch) => {
   dispatch(slice.actions.startLoading());

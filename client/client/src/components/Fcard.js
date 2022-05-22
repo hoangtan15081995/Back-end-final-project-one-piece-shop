@@ -56,7 +56,7 @@ export default function FCard({ product }) {
       </CardActionArea>
 
       <CardActions>
-        <AddToCard id={_id} />
+        <AddToCard id={_id} product={product} />
       </CardActions>
     </Card>
   );
