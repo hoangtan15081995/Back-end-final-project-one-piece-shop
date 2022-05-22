@@ -1,4 +1,4 @@
-#Features
+# Features
 
 ### User authentication and managing account (UserFlow)
 
@@ -28,3 +28,5 @@
 - User can find products by name ✅
 - User can filter products by catagories ✅
 - User can see information of a products by id ✅
+
+# Project setup
