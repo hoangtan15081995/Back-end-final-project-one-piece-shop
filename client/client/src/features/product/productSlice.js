@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { toast } from "react-toastify";
 import apiService from "../../app/apiService";
 
 const initialState = {
@@ -91,7 +90,7 @@ export const getProducts = (page) => async (dispatch) => {
     );
   } catch (error) {
     dispatch(slice.actions.hasError(error.message));
-    toast.error(error.message);
+    // toast.error(error.message);
   }
 };
 ///
@@ -110,7 +109,7 @@ export const getUpdateQuantityProduct =
       );
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
-      toast.error(error.message);
+      // toast.error(error.message);
     }
   };
 ///
@@ -131,7 +130,7 @@ export const getUpdateQuantityProductInSearch =
       );
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
-      toast.error(error.message);
+      // toast.error(error.message);
     }
   };
 
@@ -152,7 +151,7 @@ export const getUpdateQuantityProductInCatagory =
       );
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
-      toast.error(error.message);
+      // toast.error(error.message);
     }
   };
 
@@ -171,7 +170,7 @@ export const getUpdateQuantityProductDetail =
       );
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
-      toast.error(error.message);
+      // toast.error(error.message);
     }
   };
 
@@ -192,7 +191,7 @@ export const getUpdateQuantityProductInCart =
       );
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
-      toast.error(error.message);
+      // toast.error(error.message);
     }
   };
 export const getUpdateQuantityProductinCartDelete =
@@ -216,7 +215,7 @@ export const getUpdateQuantityProductinCartDelete =
       );
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
-      toast.error(error.message);
+      // toast.error(error.message);
     }
   };
 
@@ -226,7 +225,7 @@ export const getPagePagination = (page) => async (dispatch) => {
     dispatch(slice.actions.getPagePaginationSuccess(page));
   } catch (error) {
     dispatch(slice.actions.hasError(error.message));
-    toast.error(error.message);
+    // toast.error(error.message);
   }
 };
 export const getPagePaginationSearch = (pageSearch) => async (dispatch) => {
@@ -235,7 +234,7 @@ export const getPagePaginationSearch = (pageSearch) => async (dispatch) => {
     dispatch(slice.actions.getPagePaginationSearchSuccess(pageSearch));
   } catch (error) {
     dispatch(slice.actions.hasError(error.message));
-    toast.error(error.message);
+    // toast.error(error.message);
   }
 };
 export const getPagePaginationCatagory = (pageCatagory) => async (dispatch) => {
@@ -244,7 +243,7 @@ export const getPagePaginationCatagory = (pageCatagory) => async (dispatch) => {
     dispatch(slice.actions.getPagePaginationCatagorySuccess(pageCatagory));
   } catch (error) {
     dispatch(slice.actions.hasError(error.message));
-    toast.error(error.message);
+    // toast.error(error.message);
   }
 };
 
@@ -267,7 +266,7 @@ export const getProductsByName =
       );
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
-      toast.error("Don't find product");
+      // toast.error("Don't find product");
     }
   };
 
@@ -291,7 +290,7 @@ export const getProductsCatagory =
       );
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
-      toast.error(error.message);
+      // toast.error(error.message);
     }
   };
 
@@ -307,7 +306,7 @@ export const getProductsById = (productId) => async (dispatch) => {
     );
   } catch (error) {
     dispatch(slice.actions.hasError(error.message));
-    toast.error(error.message);
+    // toast.error(error.message);
   }
 };
 

@@ -10,7 +10,7 @@ function ProductsSearch() {
   let params = useParams();
   let searchQuery = params.query;
   const { pageSearch, productsByName } = useSelector((state) => state.product);
-  // console.log("1", productsByName);
+
   useEffect(() => {
     dispatch(getProductsByName(searchQuery, pageSearch));
   }, [dispatch, searchQuery, pageSearch]);

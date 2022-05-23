@@ -6,7 +6,10 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { getProductsCatagory } from "../features/product/productSlice";
+import {
+  getPagePaginationCatagory,
+  getProductsCatagory,
+} from "../features/product/productSlice";
 
 export default function SelectCatagory() {
   const dispatch = useDispatch();
@@ -16,6 +19,7 @@ export default function SelectCatagory() {
   const handleChange = (event) => {
     console.log(event.target.value);
     setCatagory(event.target.value);
+    dispatch(getPagePaginationCatagory(1));
     navigate(`catagoryPage/${event.target.value}`);
     dispatch(getProductsCatagory(event.target.value));
   };

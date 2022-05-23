@@ -184,7 +184,7 @@ export const getPagePaginationListOrder =
       dispatch(slice.actions.getPagePaginationListOrderSuccess(pageListOrder));
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
-      toast.error(error.message);
+      // toast.error(error.message);
     }
   };
 

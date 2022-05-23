@@ -2,7 +2,10 @@ import React from "react";
 import "./SearchFormDemo.css";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { getProductsByName } from "../features/product/productSlice";
+import {
+  getPagePaginationSearch,
+  getProductsByName,
+} from "../features/product/productSlice";
 import { useNavigate } from "react-router-dom";
 
 function SearchFormDemo() {
@@ -11,6 +14,7 @@ function SearchFormDemo() {
   const { register, handleSubmit } = useForm();
   const onSubmit = (data) => {
     dispatch(getProductsByName(data.search));
+    dispatch(getPagePaginationSearch(1));
     navigate(`/search/${data.search}`);
   };
 
