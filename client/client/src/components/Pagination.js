@@ -12,6 +12,7 @@ function FPagination() {
       left: 0,
       behavior: "smooth",
     });
+    console.log("newPage", newPage);
     dispatch(getPagePagination(newPage));
   };
   return (

@@ -83,6 +83,7 @@ productController.getProductsCatagory = catchAsync(async (req, res, next) => {
   const products = await Product.find({ catagories: catagory })
     .skip(offset)
     .limit(limit);
+  console.log(products);
   if (products.length === 0) {
     throw new AppError(404, "Product not found", "Get product catagory error");
   }

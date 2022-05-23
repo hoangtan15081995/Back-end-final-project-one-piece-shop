@@ -14,6 +14,7 @@ function PaginationCatagory() {
       left: 0,
       behavior: "smooth",
     });
+    console.log("newpage", newPage);
     dispatch(getPagePaginationCatagory(newPage));
   };
   return (

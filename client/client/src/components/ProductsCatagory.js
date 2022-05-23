@@ -10,11 +10,13 @@ function ProductsCatagory() {
   let params = useParams();
   let catagory = params.catagory;
   catagory = catagory.toLowerCase();
-  const { productsCatagory } = useSelector((state) => state.product);
-  console.log("array", productsCatagory);
+  const { pageCatagory, productsCatagory } = useSelector(
+    (state) => state.product
+  );
+  console.log("array", productsCatagory, pageCatagory);
   useEffect(() => {
-    dispatch(getProductsCatagory(catagory));
-  }, [dispatch, catagory]);
+    dispatch(getProductsCatagory(catagory, pageCatagory));
+  }, [dispatch, catagory, pageCatagory]);
   return (
     <Grid container spacing={2} mt={8}>
       {productsCatagory.map((product) => (

@@ -9,11 +9,11 @@ function ProductsSearch() {
   const dispatch = useDispatch();
   let params = useParams();
   let searchQuery = params.query;
-  const { productsByName } = useSelector((state) => state.product);
+  const { pageSearch, productsByName } = useSelector((state) => state.product);
   // console.log("1", productsByName);
   useEffect(() => {
-    dispatch(getProductsByName(searchQuery));
-  }, [dispatch, searchQuery]);
+    dispatch(getProductsByName(searchQuery, pageSearch));
+  }, [dispatch, searchQuery, pageSearch]);
   return (
     <Grid container spacing={2} mt={8}>
       {productsByName.map((product) => (

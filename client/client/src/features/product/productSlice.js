@@ -248,44 +248,52 @@ export const getPagePaginationCatagory = (pageCatagory) => async (dispatch) => {
   }
 };
 
-export const getProductsByName = (searchquery) => async (dispatch) => {
-  dispatch(slice.actions.startLoading());
-  try {
-    console.log(searchquery);
-    const response = await apiService.post("/products/find", { searchquery });
-    console.log(response.data.data.product);
-    // toast.success("Find product success");
-    dispatch(
-      slice.actions.getProductsByNameSuccess({
-        productsByName: response.data.data.product,
-        totalPagesSearch: response.data.data.totalPagesSearch,
-      })
-    );
-  } catch (error) {
-    dispatch(slice.actions.hasError(error.message));
-    toast.error("Don't find product");
-  }
-};
+export const getProductsByName =
+  (searchquery, pageSearch) => async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      console.log(searchquery);
+      const response = await apiService.post(
+        `/products/find?page=${pageSearch}`,
+        { searchquery }
+      );
+      console.log(response.data.data.product);
+      // toast.success("Find product success");
+      dispatch(
+        slice.actions.getProductsByNameSuccess({
+          productsByName: response.data.data.product,
+          totalPagesSearch: response.data.data.totalPagesSearch,
+        })
+      );
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.message));
+      toast.error("Don't find product");
+    }
+  };
 
-export const getProductsCatagory = (catagory) => async (dispatch) => {
-  dispatch(slice.actions.startLoading());
-  try {
-    console.log(catagory, typeof catagory);
-    // searchquery = searchquery.toLowerCase();
-    const response = await apiService.post("/products/catagory", { catagory });
-    console.log("res", response);
+export const getProductsCatagory =
+  (catagory, pageCatagory) => async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await apiService.post(
+        `/products/catagory?page=${pageCatagory}`,
+        {
+          catagory,
+        }
+      );
+      console.log("res", response);
 
-    dispatch(
-      slice.actions.getProductsCatagorySuccess({
-        productsCatagory: response.data.data.products,
-        totalPagesCatagory: response.data.data.totalPagesCatagory,
-      })
-    );
-  } catch (error) {
-    dispatch(slice.actions.hasError(error.message));
-    toast.error(error.message);
-  }
-};
+      dispatch(
+        slice.actions.getProductsCatagorySuccess({
+          productsCatagory: response.data.data.products,
+          totalPagesCatagory: response.data.data.totalPagesCatagory,
+        })
+      );
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.message));
+      toast.error(error.message);
+    }
+  };
 
 export const getProductsById = (productId) => async (dispatch) => {
   dispatch(slice.actions.startLoading());
